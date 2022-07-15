@@ -91,7 +91,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                <?php
 		  
-					$q_e = $conn->query("SELECT * FROM `user_account` WHERE `position`='Pharmacy' AND `brgy` LIKE '%$brgy%' AND `city` LIKE '%$city%'") or die(mysqli_error());
+					$q_e = $conn->query("SELECT * FROM `user_account` WHERE `position`='Pharmacy'") or die(mysqli_error());
 					while($f_e=$q_e->fetch_array()){
 		  ?> 
 				   <div class="col mb-5">
