@@ -1,10 +1,10 @@
 <?php
 session_start();
- require_once "connect.php";
+require_once "connect.php";
 // Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
-    exit;
+    exit();
 }
 ?>
 <html lang="en">
@@ -19,7 +19,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
+       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="http://cdnjs.buttflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+	 <link href="css/bootstrap.css" rel="stylesheet" />
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body onload="myFunction()" >
@@ -41,14 +44,23 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                             </ul>
                         </li> 
 						<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-transform:capitalize;"><?php  
-							$username = htmlspecialchars($_SESSION["username"]);
-							$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
-							$f = $q->fetch_array();
-								$u_id=$f['u_id'];
-								$name = "".$f['fname']." ".$f['mname']." ".$f['lname']."";
-									echo $name;
-						?></a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-transform:capitalize;"><?php
+                            $username = htmlspecialchars($_SESSION["username"]);
+                            ($q = $conn->query(
+                                "SELECT * FROM `user_account` WHERE `username` = '$username'"
+                            )) or die(msqli_error());
+                            $f = $q->fetch_array();
+                            $u_id = $f["u_id"];
+                            $name =
+                                "" .
+                                $f["fname"] .
+                                " " .
+                                $f["mname"] .
+                                " " .
+                                $f["lname"] .
+                                "";
+                            echo $name;
+                            ?></a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item active" href="setting.php">Settings</a></li>
                                 <li><hr class="dropdown-divider" /></li>
@@ -61,57 +73,70 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         </nav>
         <!-- Header-->
         <!-- Section-->
-        <section class="py-5">	<a href="checkout.php" style="float:right;margin-right:20px;text-decoration:none;">
-				<h5 style="float:right;">
-					<i class="bi bi-basket-fill"></i> 
-					<?php
-						 $sql1="SELECT count(*) AS total1 FROM `cart` WHERE `cart_user` = '$u_id' AND `status`='Pending'";
-						 $result1=mysqli_query($conn,$sql1);
-						 $data1=mysqli_fetch_assoc($result1);
-					     echo "<text style='font-size:15px;'>".$data1['total1']."</text>";
+       
+
+            <div class="container px-4 px-lg-5 mt-4">
+
+				<div class="container p-0">
+	
+		<div id="locationPicker" class="h-50" style="width: auto;"></div>
+	</div>
+
+
+
+
+	<br><br>
+
+	<div class="row">
+			<div class="col-md-11">
+				<input type="text" class="form-control" id="address" placeholder="Search Address E.g Antipolo Rizal">
+			</div>
+			<div class="col-md-1">
+				<button  class = "btn btn-primary btn-user" name="check"  id="register" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Search</button>
+			</div>
+			<div class="d-none">
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="latitude" placeholder="Latitude">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="longitude" placeholder="Longitude">
+			</div>
+			<div class="col-md-3">
+				<input type="number" class="form-control" id="radius" placeholder="Radius">
+			</div>
+			</div>
+		</div>
+		<br>
+				 <form class="user"  method = "POST" action = "<?php echo htmlspecialchars(
+         $_SERVER["PHP_SELF"]
+     ); ?>" enctype = "multipart/form-data" autocomplete="off">
+				 <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Last Name" name = "lname" value="" > <br>
+                 </div>
+				  <div class="col-md-6">
+                    <input type="text" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="First Name" name = "fname"  value=""><br>
+                 </div>
+					 <div class="col-md-6">
+                    <input type="text" class="form-control"	style=" text-transform:capitalize;"placeholder="Middle Name" name = "mname"  value=""><br>
+					</div>
+                <div class="col-md-6">
+					<input type="text" class="form-control"  required = "required" name="city" placeholder="City"  value="<?php echo $f[
+         "city"
+     ]; ?>"><br>
+					</div>
+				  <div class="col-md-6">
+						<input type="text" class="form-control "required = "required" name="brgy"  placeholder="Barangay"  value="<?php echo $f[
+          "brgy"
+      ]; ?>"><br>
+						</div>
+			 <div class="col-md-6">
+					<input type="email" class="form-control"  required = "required"name="email" id="email2" placeholder="Email Address"  value="<?php echo $f[
+         "email"
+     ]; ?>"><br>
+					</div>
+					</div>
 					
-				    ?>
-				</h5>
-			</a>
-			<a href="cashin.php" style="float:right;margin-right:20px;text-decoration:none;">E-Coins: 
-			  <?php
-			  $qc = $conn->query("SELECT * FROM `cashin` WHERE `cashin_user_id` = '$u_id'") or die(msqli_error());
-			  $fc = $qc->fetch_array();
-			  $total_cash = $fc['cashin_total'];
-		       if($fc['cashin_total']==null){
-		          echo "0"; 
-		       }else{
-		           echo  $fc['cashin_total'];
-		       }
-			  ?>  
-			</a>  
-            <div class="container px-4 px-lg-5 mt-5">
-				 <form class="user"  method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype = "multipart/form-data" autocomplete="off">
-                
-                    <input type="text" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Last Name" name = "lname" value="<?php echo $f['lname']?>" > <br>
-                 
-                    <input type="text" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="First Name" name = "fname"  value="<?php echo $f['fname']?>"><br>
-                 
-                    <input type="text" class="form-control"	style=" text-transform:capitalize;"placeholder="Middle Name" name = "mname"  value="<?php echo $f['mname']?>"><br>
-               
-					<input type="text" class="form-control"  required = "required" name="city" placeholder="City"  value="<?php echo $f['city']?>"><br>
-				 
-						<input type="text" class="form-control "required = "required" name="brgy"  placeholder="Barangay"  value="<?php echo $f['brgy']?>"><br>
-			
-					<input type="email" class="form-control"  required = "required"name="email" id="email2" placeholder="Email Address"  value="<?php echo $f['email']?>"><br>
-					<div id="status2"></div>
-						<input type="text" class="form-control "required = "required" name="username" id="username2" placeholder="User Name"  value="<?php echo $f['username']?>"><br>
-						<div id="status"></div>
-				 
-                    <input type="password" class="form-control"  placeholder="Password" name = "password" id="password2" onkeyup='check();' ><br>
-                  
-                    <input type="password" class="form-control" name = "confirm_password" id="confirm_password" placeholder="Repeat Password" onkeyup='check();'>
-					
-					<div id="err2"></div><br>
-                    <input type="password" class="form-control" required = "required" name = "old_password2" id="confirm_password" placeholder="Old Password" ><br>
-                    <input type="hidden" class="form-control"	  name = "u_id" required value="<?php echo $f['u_id']?>">
-                    <input type="hidden" class="form-control"	 name = "old_password1"  value="<?php echo $f['password']?>">
-                  
                     <button  class = "btn btn-primary btn-user" name="check"  id="register" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Update Profile</button>
 					<button  class = "btn btn-primary btn-user" name=""  id="" style="float:right;margin-right: 5px;">
 					<span class = "glyphicon glyphicon-save">
@@ -125,33 +150,34 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               </form>
              
 			
-				<?php
-				if(isset($_POST['check'])){
-					$u_id 		= $_POST['u_id'];
-					$lname 		= $_POST['lname'];
-					$mname 		= $_POST['mname'];
-					$fname 		= $_POST['fname'];
-					$email 		= $_POST['email'];
-					$username 	= $_POST['username'];
-					$city 		= $_POST['city'];
-					$brgy 		= $_POST['brgy'];
-					$old_password1 		= $_POST['old_password1'];
-					$old_password2 		= $_POST['old_password2'];
-					$password 	    	= $_POST['password'];
-					$confirm_password 	= $_POST['confirm_password'];
-					
-					if(password_verify($old_password2, $old_password1)){
-					if($password == $confirm_password){
-						if($_POST['password']==""){
-							$ps2 = $_POST['old_password2'];
-						}else{
-							$ps2 = $_POST['password'];
-						}
-				    $pass = password_hash($ps2, PASSWORD_DEFAULT);
-					
-				    $result=$conn->query("UPDATE user_account SET lname='$lname',`brgy`='$brgy',`city`='$city',`username`='$username',fname='$fname',mname='$mname',email='$email',password='$pass' WHERE u_id='$u_id' ");
-					if($result){
-					echo '<script>
+				<?php if (isset($_POST["check"])) {
+        $u_id = $_POST["u_id"];
+        $lname = $_POST["lname"];
+        $mname = $_POST["mname"];
+        $fname = $_POST["fname"];
+        $email = $_POST["email"];
+        $username = $_POST["username"];
+        $city = $_POST["city"];
+        $brgy = $_POST["brgy"];
+        $old_password1 = $_POST["old_password1"];
+        $old_password2 = $_POST["old_password2"];
+        $password = $_POST["password"];
+        $confirm_password = $_POST["confirm_password"];
+
+        if (password_verify($old_password2, $old_password1)) {
+            if ($password == $confirm_password) {
+                if ($_POST["password"] == "") {
+                    $ps2 = $_POST["old_password2"];
+                } else {
+                    $ps2 = $_POST["password"];
+                }
+                $pass = password_hash($ps2, PASSWORD_DEFAULT);
+
+                $result = $conn->query(
+                    "UPDATE user_account SET lname='$lname',`brgy`='$brgy',`city`='$city',`username`='$username',fname='$fname',mname='$mname',email='$email',password='$pass' WHERE u_id='$u_id' "
+                );
+                if ($result) {
+                    echo '<script>
 									function myFunction() {
 										swal({
 										title: "Success!",
@@ -162,10 +188,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 										window.location = "setting.php";
 									  });}
 									</script>';
-						}
-					    
-					}else{
-					    echo '<script>
+                }
+            } else {
+                echo '<script>
 									function myFunction() {
 									swal({
 									title: "Failed!",
@@ -174,9 +199,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									button: "Ok",
 									});}
 									</script>';
-					}
-				}else{
-				      echo '<script>
+            }
+        } else {
+            echo '<script>
 									function myFunction() {
 									swal({
 									title: "Failed!",
@@ -185,10 +210,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									button: "Ok",
 									});}
 									</script>';
-				}
-					
-				}
-					?>
+        }
+    } ?>
             </div>
         </section>
         <!-- Footer-->
@@ -212,3 +235,20 @@ var check = function() {
 </script>
     </body>
 </html>
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.buttflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+<script src="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.js"></script>
+<script src="../js/OSMLocationPicker.js"></script>
+<script>
+	$(document).ready(function(){
+		OSMPICKER.initmappicker(14.5948914, 120.9782618, 1, {
+			addressId: "address",
+			latitudeId: "latitude",
+			longitudeId: "longitude",
+			radiusId: "radius"
+		});
+	});
+</script>
