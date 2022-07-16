@@ -88,10 +88,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 	<br><br>
 
 	<div class="row">
-			<div class="col-md-11">
+			<div class="col-9 col-md-11">
 				<input type="text" class="form-control" id="address" placeholder="Search Address E.g Antipolo Rizal">
 			</div>
-			<div class="col-md-1">
+			<div class="col-3 col-md-1">
 				<button  class = "btn btn-primary btn-user" name="check"  id="register" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Search</button>
 			</div>
 			<div class="d-none">
@@ -112,28 +112,26 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
      ); ?>" enctype = "multipart/form-data" autocomplete="off">
 				 <div class="row">
                 <div class="col-md-6">
-                    <input type="text" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Last Name" name = "lname" value="" > <br>
+                    <input type="text" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street" name = "lname" value="" > <br>
                  </div>
 				  <div class="col-md-6">
-                    <input type="text" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="First Name" name = "fname"  value=""><br>
+                    <input type="text" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="Building Name" name = "fname"  value=""><br>
                  </div>
 					 <div class="col-md-6">
-                    <input type="text" class="form-control"	style=" text-transform:capitalize;"placeholder="Middle Name" name = "mname"  value=""><br>
+                    <input type="text" class="form-control"	style=" text-transform:capitalize;"placeholder="Unit/Floor" name = "mname"  value=""><br>
 					</div>
                 <div class="col-md-6">
-					<input type="text" class="form-control"  required = "required" name="city" placeholder="City"  value="<?php echo $f[
-         "city"
-     ]; ?>"><br>
-					</div>
-				  <div class="col-md-6">
-						<input type="text" class="form-control "required = "required" name="brgy"  placeholder="Barangay"  value="<?php echo $f[
+					<input type="text" class="form-control"  required = "required" name="city" placeholder="Barangay"  value="<?php echo $f[
           "brgy"
       ]; ?>"><br>
+					</div>
+				  <div class="col-md-6">
+						<input type="text" class="form-control "required = "required" name="brgy"  placeholder="City"  value="<?php echo $f[
+         "city"
+     ]; ?>"><br>
 						</div>
 			 <div class="col-md-6">
-					<input type="email" class="form-control"  required = "required"name="email" id="email2" placeholder="Email Address"  value="<?php echo $f[
-         "email"
-     ]; ?>"><br>
+					<input type="email" class="form-control"  required = "required"name="email" id="email2" placeholder="Province"  value=""><br>
 					</div>
 					</div>
 					
