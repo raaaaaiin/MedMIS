@@ -81,8 +81,13 @@ i,p{
 							$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
 							$f = $q->fetch_array();
 								$u_id=$f['u_id'];
+                                if($f['latitude'] == null){
+                                header("location: location.php");
+                                }
 								$name = "".$f['lname'];
 									echo $name;
+
+                            
 						?>
 		 </a>
         </div>

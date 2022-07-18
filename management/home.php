@@ -47,7 +47,7 @@ function getNearbyPharmacy($conn,$currentLat,$currentLong){
     pi()/180 / 2), 2) )) as mile
     FROM user_account dest  
     where position = 'Pharmacy'
-    having mile < 10
+    having mile < 100
     ORDER BY mile limit 100") or die(msqli_error());
     $json = mysqli_fetch_all ($haversine, MYSQLI_ASSOC);
     return  $json;
@@ -57,7 +57,7 @@ function DistancetoKM($nearbyPharmacy){
 $temp = array();;
 foreach ($nearbyPharmacy as $key) {
   $km = $key['mile'] * 1.6;
-  array_push($temp,array($key['u_id'],$km,$key['username'],$key['unitfloorbld']." ".$key['ave']." ".$key['street']." Brgy. ".$key['brgy'].", " .$key['city'].", ". $key['province'],$key['mname']));
+  array_push($temp,array($key['u_id'],$km,$key['lname'],$key['unitfloorbld']." ".$key['ave']." ".$key['street']." Brgy. ".$key['brgy'].", " .$key['city'].", ". $key['province'],$key['mname']));
 }
 return $temp;
 
