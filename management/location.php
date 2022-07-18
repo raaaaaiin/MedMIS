@@ -113,26 +113,26 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 			</div>
 			</div>
                 <div class="col-md-6">
-                    <input type="text" id="UnitFloor" class="form-control"	style=" text-transform:capitalize;"placeholder="Unit/Floor/Building Name" name = "ufb"  value=""><br>
+                    <input type="text" id="UnitFloor" class="form-control"	style=" text-transform:capitalize;" required = "required" placeholder="Unit/Floor/Building Name *" name = "ufb"  value=""><br>
                  </div>
 				  <div class="col-md-6">
-                    <input type="text" id="BuildingName" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="Avenue/District" name = "ave"  value=""><br>
+                    <input type="text" id="BuildingName" class="form-control"	style=" text-transform:capitalize;"placeholder="Avenue/District" name = "ave"  value=""><br>
                  </div>
 					 <div class="col-md-6">
-                    <input type="text" id="street" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street*" name = "street" value="" > <br>
+                    <input type="text" id="street" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street *" name = "street" value="" > <br>
 					</div>
                 <div class="col-md-6">
-					<input type="text" id="Barangay" class="form-control"  required = "required" name="barangay" placeholder="Barangay"  value="<?php echo $f[
+					<input type="text" id="Barangay" class="form-control"  required = "required" name="barangay" placeholder="Barangay *"  value="<?php echo $f[
           "brgy"
       ]; ?>"><br>
 					</div>
 				  <div class="col-md-6">
-						<input type="text" id="City" class="form-control "required = "required" name="city"  placeholder="City"  value="<?php echo $f[
+						<input type="text" id="City" class="form-control "required = "required" name="city"  placeholder="City *"  value="<?php echo $f[
          "city"
      ]; ?>"><br>
 						</div>
 			 <div class="col-md-6">
-					<input type="text" id="Province" class="form-control"  required = "required"name="province"  placeholder="Province"  value=""><br>
+					<input type="text" id="Province" class="form-control"  required = "required"name="province"  placeholder="Province *"  value=""><br>
 					</div>
 					</div>
 					
@@ -144,14 +144,14 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
              
 			
 				<?php if (isset($_POST["check"])) {
-        $lat = $_POST['latitude'];;
-        $long = $_POST['longitude'];;
-        $ufb = $_POST['ufb'];;
-        $ave = $_POST['ave'];;
-        $street = $_POST['street'];;
-        $province =$_POST['province'];;
-        $brgy = $_POST['barangay'];;
-        $city = $_POST['city'];;
+        $lat = $_POST['latitude'];
+        $long = $_POST['longitude'];
+        $ufb = $_POST['ufb'];
+        $ave = $_POST['ave'];
+        $street = $_POST['street'];
+        $province =$_POST['province'];
+        $brgy = $_POST['barangay'];
+        $city = $_POST['city'];
         
                 $result = $conn->query(
                     "UPDATE user_account SET latitude='$lat',`longtitude`='$long',`unitfloorbld`='$ufb',`ave`='$ave',street='$street',province='$province',brgy='$brgy',city='$city' WHERE u_id='$u_id' "
