@@ -15,6 +15,9 @@ $brgy   =   $f['brgy'];
 $city   =   $f['city'];
 $long   =   $f['longtitude'];
 $lat   =   $f['latitude'];
+if($f['latitude'] == null){
+                                header("location: location.php");
+}
 $name = "".$f['fname']." ".$f['mname']." ".$f['lname']."";
 $nearbyPharmacy;
 $convertedPharmacy = array();
