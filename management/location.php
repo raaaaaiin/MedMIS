@@ -92,7 +92,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 				<input type="text" class="form-control" id="address" placeholder="Search Address E.g Antipolo Rizal">
 			</div>
 			<div class="col-3 col-md-1">
-				<button  class = "btn btn-primary btn-user" name="check"  id="register" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Search</button>
+				<button  class = "btn btn-primary btn-user" name="search"  id="search" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Search</button>
 			</div>
 			
 		</div>

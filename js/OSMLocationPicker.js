@@ -43,26 +43,29 @@ var OSMPICKER = (function () {
 		map.addLayer(circle);
 
 		$("#"+option.latitudeId).val(lat);
-		$("#"+option.latitudeId).on('change', function(){
+		$("#" + option.latitudeId).on('change', function () {
 			marker.setLatLng([Number($(this).val()), marker.getLatLng().lng]);
 			circle.setLatLng(marker.getLatLng());
 			map.setView(marker.getLatLng());
 		});
 
 		$("#"+option.longitudeId).val(lon);
-		$("#"+option.longitudeId).on('change', function(){
+		$("#" + option.longitudeId).on('change', function () {
 			marker.setLatLng([marker.getLatLng().lat, Number($(this).val())]);
 			circle.setLatLng(marker.getLatLng());
 			map.setView(marker.getLatLng());
 		});
 
 		$("#"+option.radiusId).val(r);
-		$("#"+option.radiusId).on('change', function(){
+		$("#" + option.radiusId).on('change', function () {
 			circle.setRadius(Number($(this).val()));
 		});
 
-		$("#"+option.addressId).on('change', function(){
+		$("#" + option.addressId).on('change', function () {
 			var item = searchLocation($(this).val(), newLocation);
+		});
+		$("#search").on('click', function () {
+			var item = searchLocation($("#" + option.addressId).val(), newLocation);
 		});
 		$("#" + option.addressId).on('change', function () {
 			var item = searchLocation($(this).val(), newLocation);
