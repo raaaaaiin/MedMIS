@@ -10,6 +10,7 @@ $password = ""; // MySQL user password (if password is not set for your root use
 $database = "db_school_5"; // MySQL Database name
 
 // Connect to MySQL Database
+
 $conn = new mysqli($host, $user, $password, $database);
 
 // Check connection

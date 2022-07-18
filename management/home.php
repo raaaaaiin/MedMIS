@@ -7,9 +7,18 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 
-
-
-
+$username = htmlspecialchars($_SESSION["username"]);
+$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
+$f = $q->fetch_array();
+$u_id   =   $f['u_id'];
+$brgy   =   $f['brgy'];
+$city   =   $f['city'];
+$long   =   $f['longtitude'];
+$lat   =   $f['latitude'];
+$name = "".$f['fname']." ".$f['mname']." ".$f['lname']."";
+$nearbyPharmacy;
+$convertedPharmacy = array();
+//Bruteforce Algorithm Using haversine formula 
 //Algorithm for Nearest Pharmacy 
 //Using haversine formula 
 //Directly apply the formula to SQL query
@@ -26,9 +35,23 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 //Then display each of them on the dashboard;
 
 
-
-
-
+function getNearbyPharmacy($conn,$currentLat,$currentLong){
+    $haversine = $conn->query("SELECT *, 3956 *
+    2 *
+    ASIN(SQRT(POWER(SIN(($currentLat - abs(dest.latitude)) *
+    pi()/180 / 2),2) +
+    COS($currentLat * pi()/180 ) *
+    COS(abs(dest.latitude) *
+    pi()/180) *
+    POWER(SIN(($currentLong - dest.longtitude) *
+    pi()/180 / 2), 2) )) as distance
+    FROM user_account dest
+    having distance < 10
+    ORDER BY distance limit 100") or die(msqli_error());
+    $json = mysqli_fetch_all ($haversine, MYSQLI_ASSOC);
+    
+    return  $json;
+}
 
 
 
@@ -70,13 +93,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                         </li> 
 						<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-transform:capitalize;"><?php  
-							$username = htmlspecialchars($_SESSION["username"]);
-							$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
-							$f = $q->fetch_array();
-								$u_id   =   $f['u_id'];
-								$brgy   =   $f['brgy'];
-								$city   =   $f['city'];
-								$name = "".$f['fname']." ".$f['mname']." ".$f['lname']."";
+							
+							
 									echo $name;
 						?></a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
