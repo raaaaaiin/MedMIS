@@ -57,7 +57,7 @@ function DistancetoKM($nearbyPharmacy){
 $temp = array();;
 foreach ($nearbyPharmacy as $key) {
   $km = $key['mile'] * 1.6;
-  array_push($temp,array($key['u_id'],$km,$key['username'],$key['unitfloorbld']." ".$key['ave']." ".$key['street']." Brgy. ".$key['brgy'].", " .$key['city'].", ". $key['province']));
+  array_push($temp,array($key['u_id'],$km,$key['username'],$key['unitfloorbld']." ".$key['ave']." ".$key['street']." Brgy. ".$key['brgy'].", " .$key['city'].", ". $key['province'],$key['mname']));
 }
 return $temp;
 
@@ -150,38 +150,48 @@ $convertedPharmacy = DistancetoKM($nearbyPharmacy);
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                <?php
-		           
-					$q_e = $conn->query("SELECT * FROM `user_account` WHERE `position`='Pharmacy'") or die(mysqli_error());
-					while($f_e=$q_e->fetch_array()){
-		  ?> 
-				   <div class="col mb-5">
+		            foreach ($convertedPharmacy as $singleData) {
+                    //[0] = u_id
+                    //[1] = km
+                    //[2] = username
+                    //[3] = Address
+                    //[4] = pic
+                   
+               ?> 
+
+
+               <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" src="../student/img/<?php echo $f_e['mname']?>" alt="..." />
+                            <img class="card-img-top" src="../student/img/<?php echo $singleData[4]?>" alt="..." />
                             <!-- Product details-->
 							<form action="" method="GET">
                             <div class="card-body p-4">
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder"><?php echo $f_e['lname']?></h5>
+                                    <h5 class="fw-bolder"><?php echo $singleData[2]?></h5>
                                     <!-- Product price-->
-                                     <p style="font-size:12px;">Address:</p> <p style="font-size:12px;"><?php echo $f_e['fname']?></p>
-                                     <p style="font-size:12px;">Location: <?php
-													$temp = (rand(2,5));
-													echo $temp;
-											    ?>.<?php
-													$temp = (rand(4,7));
-													echo $temp;
-											    ?> km</p> 
+                                     <p style="font-size:12px;">Address: <?php echo $singleData[3]?></p>
+                                     <p style="font-size:12px;">Location: <?php echo number_format((float)$singleData[1], 2, '.', ''); ?> km away</p> 
                                 </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-light mt-auto bg-danger" href="product-list.php?u_id=<?php echo $f_e['u_id']?>">Open</a></div>
+                                <div class="text-center"><a class="btn btn-outline-light mt-auto bg-danger" href="product-list.php?u_id=<?php echo $singleData[0]?>">Open</a></div>
                             </div>
 							</form>
                         </div>
                     </div> 
-					<?php 
-			}
+
+
+
+               <?php 
+                    
+                    } 
+                    
+               ?>
+
+				   
+			    <?php 
+			
 			if(isset($_GET['prod'])){
 				$product = $_GET['prod'];
 				$date = date('F d,Y - H:i:s A',time());
