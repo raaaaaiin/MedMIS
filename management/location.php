@@ -113,13 +113,16 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 			</div>
 			</div>
                 <div class="col-md-6">
-                    <input type="text" id="UnitFloor" class="form-control"	style=" text-transform:capitalize;" required = "required" placeholder="Unit/Floor/Building Name *" name = "ufb"  value=""><br>
+                    <input type="text" id="UnitFloor" class="form-control"	style=" text-transform:capitalize;" required = "required" placeholder="Unit/Floor/Building Name *" name = "ufb"  value="<?php echo $f[
+         "unitfloorbld"]?>"><br>
                  </div>
 				  <div class="col-md-6">
-                    <input type="text" id="BuildingName" class="form-control"	style=" text-transform:capitalize;"placeholder="Avenue/District" name = "ave"  value=""><br>
+                    <input type="text" id="BuildingName" class="form-control"	style=" text-transform:capitalize;"placeholder="Avenue/District" name = "ave"  value="<?php echo $f[
+         "ave"] ?>"><br>
                  </div>
 					 <div class="col-md-6">
-                    <input type="text" id="street" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street *" name = "street" value="" > <br>
+                    <input type="text" id="street" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street *" name = "street" value="<?php echo $f[
+         "street"] ?>" > <br>
 					</div>
                 <div class="col-md-6">
 					<input type="text" id="Barangay" class="form-control"  required = "required" name="barangay" placeholder="Barangay *"  value="<?php echo $f[
@@ -132,7 +135,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
      ]; ?>"><br>
 						</div>
 			 <div class="col-md-6">
-					<input type="text" id="Province" class="form-control"  required = "required"name="province"  placeholder="Province *"  value=""><br>
+					<input type="text" id="Province" class="form-control"  required = "required"name="province"  placeholder="Province *"  value="<?php echo $f[
+         "province"] ?>"><br>
 					</div>
 					</div>
 					
