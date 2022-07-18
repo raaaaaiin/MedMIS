@@ -1,4 +1,5 @@
-var OSMPICKER = (function(){
+var currentloc = "hotdog";
+var OSMPICKER = (function () {
 	var app = {};
 	
 	var map;
@@ -110,13 +111,28 @@ var OSMPICKER = (function(){
             fetch(nominatimURL)
                 .then(res => res.json())
                 .then((data) => {
-                  
-                    alert( JSON.stringify(data, undefined, 2));
+					currentloc = data;
+					generateAddress()
             })
             .catch(err => { throw err });     
     
 
 	};
-	
+
+	function generateAddress() {
+		$("#BuildingName").val();
+		$("#UnitFloor").val();
+
+		$("#street").val(currentloc.address.road);
+		$("#Barangay").val(currentloc.address.neighbourhood);
+		if (currentloc.address.town == null) {
+			$("#City").val(currentloc.address.city);
+		} else {
+			$("#City").val(currentloc.address.town);
+        }
+		
+		
+		$("#Province").val(currentloc.address.state);
+    }
 	return app;
 })();

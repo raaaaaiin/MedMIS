@@ -94,7 +94,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 			<div class="col-3 col-md-1">
 				<button  class = "btn btn-primary btn-user" name="check"  id="register" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Search</button>
 			</div>
-			<div class="">
+			<div class="d-none">
 			<div class="col-md-3">
 				<input type="text" class="form-control" id="latitude" placeholder="Latitude">
 			</div>
@@ -112,26 +112,26 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
      ); ?>" enctype = "multipart/form-data" autocomplete="off">
 				 <div class="row">
                 <div class="col-md-6">
-                    <input type="text" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street" name = "lname" value="" > <br>
+                    <input type="text" id="UnitFloor" class="form-control"	style=" text-transform:capitalize;"placeholder="Unit/Floor/Building Name" name = "mname"  value=""><br>
                  </div>
 				  <div class="col-md-6">
-                    <input type="text" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="Building Name" name = "fname"  value=""><br>
+                    <input type="text" id="BuildingName" class="form-control"	style=" text-transform:capitalize;"required = "required"placeholder="Avenue/District" name = "fname"  value=""><br>
                  </div>
 					 <div class="col-md-6">
-                    <input type="text" class="form-control"	style=" text-transform:capitalize;"placeholder="Unit/Floor" name = "mname"  value=""><br>
+                    <input type="text" id="street" class="form-control"   style=" text-transform:capitalize;"required = "required"placeholder="Street*" name = "lname" value="" > <br>
 					</div>
                 <div class="col-md-6">
-					<input type="text" class="form-control"  required = "required" name="city" placeholder="Barangay"  value="<?php echo $f[
+					<input type="text" id="Barangay" class="form-control"  required = "required" name="city" placeholder="Barangay"  value="<?php echo $f[
           "brgy"
       ]; ?>"><br>
 					</div>
 				  <div class="col-md-6">
-						<input type="text" class="form-control "required = "required" name="brgy"  placeholder="City"  value="<?php echo $f[
+						<input type="text" id="City" class="form-control "required = "required" name="brgy"  placeholder="City"  value="<?php echo $f[
          "city"
      ]; ?>"><br>
 						</div>
 			 <div class="col-md-6">
-					<input type="email" class="form-control"  required = "required"name="email" id="email2" placeholder="Province"  value=""><br>
+					<input type="email" id="Province" class="form-control"  required = "required"name="email" id="email2" placeholder="Province"  value=""><br>
 					</div>
 					</div>
 					
