@@ -62,10 +62,14 @@ var OSMPICKER = (function(){
 		$("#"+option.addressId).on('change', function(){
 			var item = searchLocation($(this).val(), newLocation);
 		});
+		$("#" + option.addressId).on('change', function () {
+			var item = searchLocation($(this).val(), newLocation);
+		});
 
 		function newLocation(item){
 			$("#"+option.latitudeId).val(item.lat);
-			$("#"+option.longitudeId).val(item.lon);
+			$("#" + option.longitudeId).val(item.lon);
+			georeverse(item.lat, item.lon);
 			marker.setLatLng([item.lat, item.lon]);
 			circle.setLatLng([item.lat, item.lon]);
 			map.setView([item.lat, item.lon]);
@@ -98,16 +102,15 @@ var OSMPICKER = (function(){
 	};
 
 
-	function georeverse() {
+	function georeverse(lat,lng) {
 		
-            let nominatimURL = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&zoom=18&addressdetails=1';
+		let nominatimURL = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&zoom=18&addressdetails=1';
 
             fetch(nominatimURL)
                 .then(res => res.json())
                 .then((data) => {
-                    infoBox.style.display = 'block';
-                    infoBox.innerHTML = '';
-                    infoBox.innerHTML = JSON.stringify(data, undefined, 2);
+                  
+                    alert( JSON.stringify(data, undefined, 2));
             })
             .catch(err => { throw err });     
     

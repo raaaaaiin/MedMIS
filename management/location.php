@@ -94,7 +94,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 			<div class="col-3 col-md-1">
 				<button  class = "btn btn-primary btn-user" name="check"  id="register" style="float:right;"><span class = "glyphicon glyphicon-save"></span> Search</button>
 			</div>
-			<div class="d-none">
+			<div class="">
 			<div class="col-md-3">
 				<input type="text" class="form-control" id="latitude" placeholder="Latitude">
 			</div>
