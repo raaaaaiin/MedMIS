@@ -96,6 +96,23 @@ var OSMPICKER = (function(){
 			}
 		});
 	};
+
+
+	function georeverse() {
+		
+            let nominatimURL = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&zoom=18&addressdetails=1';
+
+            fetch(nominatimURL)
+                .then(res => res.json())
+                .then((data) => {
+                    infoBox.style.display = 'block';
+                    infoBox.innerHTML = '';
+                    infoBox.innerHTML = JSON.stringify(data, undefined, 2);
+            })
+            .catch(err => { throw err });     
+    
+
+	};
 	
 	return app;
 })();
