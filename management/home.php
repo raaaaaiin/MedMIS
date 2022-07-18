@@ -6,6 +6,35 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: index.php");
     exit;
 }
+
+
+
+
+//Algorithm for Nearest Pharmacy 
+//Using haversine formula 
+//Directly apply the formula to SQL query
+//  This will return the nearest Pharmacy
+//Inorder to use Harversine it needs the ff:
+//Distance = determine how far the search will be
+//CurrentLat = The Latitude of the origin
+//CurentLong = The Long of the origin
+//Destlat = The latitude of Pharmacy
+//DestLong = The Longitude of the Pharmacy
+
+
+//After determining the nearby pharmacies we need to convert their lat and long into km against the origin
+//Then display each of them on the dashboard;
+
+
+
+
+
+
+
+
+
+
+
 ?>
 <html lang="en">
     <head>
