@@ -149,30 +149,17 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
              
 			
 				<?php if (isset($_POST["check"])) {
-        $u_id = $_POST["u_id"];
-        $lname = $_POST["lname"];
-        $mname = $_POST["mname"];
-        $fname = $_POST["fname"];
-        $email = $_POST["email"];
-        $username = $_POST["username"];
-        $city = $_POST["city"];
-        $brgy = $_POST["brgy"];
-        $old_password1 = $_POST["old_password1"];
-        $old_password2 = $_POST["old_password2"];
-        $password = $_POST["password"];
-        $confirm_password = $_POST["confirm_password"];
-
-        if (password_verify($old_password2, $old_password1)) {
-            if ($password == $confirm_password) {
-                if ($_POST["password"] == "") {
-                    $ps2 = $_POST["old_password2"];
-                } else {
-                    $ps2 = $_POST["password"];
-                }
-                $pass = password_hash($ps2, PASSWORD_DEFAULT);
-
+        $lat = "lat";
+        $long = "long";
+        $ufb = "ufb";
+        $ave = "ave";
+        $street = "st";
+        $province = "prov";
+        $brgy = "brgy";
+        $city = "city";
+        
                 $result = $conn->query(
-                    "UPDATE user_account SET lname='$lname',`brgy`='$brgy',`city`='$city',`username`='$username',fname='$fname',mname='$mname',email='$email',password='$pass' WHERE u_id='$u_id' "
+                    "UPDATE user_account SET latitude='$lat',`longtitude`='$long',`unitfloorbld`='$ufb',`ave`='$ave',street='$street',province='$province',brgy='$brgy',city='$city' WHERE u_id='$u_id' "
                 );
                 if ($result) {
                     echo '<script>
@@ -186,8 +173,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 										window.location = "setting.php";
 									  });}
 									</script>';
-                }
-            } else {
+                }else {
                 echo '<script>
 									function myFunction() {
 									swal({
@@ -197,18 +183,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 									button: "Ok",
 									});}
 									</script>';
-            }
-        } else {
-            echo '<script>
-									function myFunction() {
-									swal({
-									title: "Failed!",
-									text: "Oops! Wrong password. Please try again",
-									icon: "error",
-									button: "Ok",
-									});}
-									</script>';
-        }
+                }
     } ?>
             </div>
         </section>
