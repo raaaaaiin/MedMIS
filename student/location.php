@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "connect.php";
+require_once "../connect.php";
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
@@ -22,7 +22,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="http://cdnjs.buttflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-	 <link href="css/bootstrap.css" rel="stylesheet" />
+	 <link href="../management/css/bootstrap.css" rel="stylesheet" />
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body onload="myFunction()" >
