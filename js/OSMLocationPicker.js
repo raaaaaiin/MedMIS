@@ -35,7 +35,8 @@ var OSMPICKER = (function(){
 			circle.setLatLng(e.target.getLatLng());
 			map.setView(e.target.getLatLng());
 			$("#"+option.latitudeId).val(e.target.getLatLng().lat);
-			$("#"+option.longitudeId).val(e.target.getLatLng().lng);
+			$("#" + option.longitudeId).val(e.target.getLatLng().lng);
+			georeverse(e.target.getLatLng().lat, e.target.getLatLng().lng);
 		});
 		map.addLayer(marker);
 		map.addLayer(circle);
