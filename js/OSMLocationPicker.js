@@ -125,25 +125,48 @@ var OSMPICKER = (function () {
 
 		$("#street").val(currentloc.address.road);
 
-		/*Barangay And suburb*/
+		/*Barangay Suburb  quzrter*/
 		if (currentloc.address.neighbourhood == null) {
-			$("#Barangay").val(currentloc.address.suburb);
+
+			if (currentloc.address.quarter == null) {
+
+				if (currentloc.address.suburb == null){
+
+				} else {
+					$("#Barangay").val(currentloc.address.suburb);
+                }
+			} else {
+				$("#Barangay").val(currentloc.address.quarter);
+            }
 		} else {
 			$("#Barangay").val(currentloc.address.neighbourhood);
 		}
-		/*Town and City*/
+
+		/*Town City village*/
 		if (currentloc.address.town == null) {
-			$("#City").val(currentloc.address.city);
+			if (currentloc.address.city == null) {
+				if (currentloc.address.village == null) {
+				} else {
+					$("#City").val(currentloc.address.village);
+                }
+			} else {
+				$("#City").val(currentloc.address.city);
+            }
 		} else {
 			$("#City").val(currentloc.address.town);
         }
 		
-	/*Province or region*/
+	/*Province or region */
 		if (currentloc.address.state == null) {
-			$("#Province").val(currentloc.address.region);
+
+			if (currentloc.address.region == null) {
+			} else {
+				$("#Province").val(currentloc.address.region);
+            }
 		} else {
 			$("#Province").val(currentloc.address.state);
-		}
+        }
+		
 		
     }
 	return app;
