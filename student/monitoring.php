@@ -162,7 +162,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 		<div class="container-fluid"> 
 		
 	  <div class="printPageButton">  
-			<!--<a href="#"   onclick="window.print()" class = "btn-info btn-m btn"  style="color:black;"> <i class="fas fa-print fa-m"></i> Print this page</a>--->
+			<!--<a href="#"   onclick="window.print()" class = "btn-info btn-m btn"  style="color:black;"> <i class="fas fa-print fa-m"></i> Print this page</a>-->
 			 
 			<a href="#" class="btn-danger btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" data-toggle="modal" data-target="#addProduct"> 
 				<i class="fas fa fa-shopping-cart fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Add New Product			
@@ -196,7 +196,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	   
 	  error_reporting(0);
 	  ini_set('display_errors', 0);
-					$q_e = $conn->query("SELECT * FROM `product` WHERE `product_user` ='$u_id' AND `product_updated_date`!='Deleted'") or die(mysqli_error());
+					$q_e = $conn->query("SELECT * FROM `product` WHERE `product_user` ='$u_id'") or die(mysqli_error());
 					while($f_e=$q_e->fetch_array()){
 										
 			
@@ -211,6 +211,30 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 							<a href="monitoring-update.php?product_id=<?php echo $f_e['product_id']?>" class="btn-info btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
 								<i class="fas fa fa-eye fa-m text-white-100" style="font-size:15px;" title="Mail"></i> View Product
 							</a>	
+							
+							<?php
+
+							if($f_e['product_updated_date'] == "Active"){
+							?>
+
+							<a href="monitoring.php?deact_cart=<?php echo $f_e['product_id']?>" class="btn-secondary btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Disabled
+							</a>
+
+							<?php
+							}else{
+							?>
+							<a href="monitoring.php?react_cart=<?php echo $f_e['product_id']?>" class="btn-success btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Re-Activate
+							</a> 
+							
+
+							<?php
+
+							}
+							?>
+							
+							
 							<a href="monitoring.php?del_cart=<?php echo $f_e['product_id']?>" class="btn-danger btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
 								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Delete
 							</a>
@@ -219,8 +243,46 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 					</tr>
 						<?php
 						}		
+
+						//Delete 
 						if(isset($_GET['del_cart'])){
 					$del_cart = $_GET['del_cart'];
+					
+					$result=$conn->query("DELETE FROM product WHERE product_id='$del_cart'");
+					if($result){
+					echo '<script>
+									function myFunction() {
+										swal({
+										title: "Success!",
+										text: "Successfully Remove Product",
+									    icon: "success",
+										type: "success"
+										}).then(function() {
+										window.location = "monitoring.php";
+									  });}
+									</script>';}
+				}
+				//Disabled
+				if(isset($_GET['react_cart'])){
+					$del_cart = $_GET['react_cart'];
+					
+					$result=$conn->query("UPDATE product SET product_updated_date='Active' WHERE product_id='$del_cart'");
+					if($result){
+					echo '<script>
+									function myFunction() {
+										swal({
+										title: "Success!",
+										text: "Successfully Re-Activated Product",
+									    icon: "success",
+										type: "success"
+										}).then(function() {
+										window.location = "monitoring.php";
+									  });}
+									</script>';}
+				}
+				//Enable
+				if(isset($_GET['deact_cart'])){
+					$del_cart = $_GET['deact_cart'];
 					
 					$result=$conn->query("UPDATE product SET product_updated_date='Deleted' WHERE product_id='$del_cart'");
 					if($result){
@@ -234,9 +296,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 										}).then(function() {
 										window.location = "monitoring.php";
 									  });}
-									</script>';
+									</script>';}
 				}
-				}
+				
+				
+				
 								
 				?>			
                     </tbody>
