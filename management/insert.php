@@ -6,7 +6,9 @@
 <link href="css/styles.css" rel="stylesheet" />
 <body onload="myFunction()">
 <?php
+
 				require_once "connect.php";
+				date_default_timezone_set('Asia/Manila');
 				$product = $_GET['prod'];
 				$u_id1   = $_GET['u_id'];
 				$u_id    = $_GET['u_id1'];
