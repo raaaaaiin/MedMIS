@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Manila');
 // Connection variables
 $host = "localhost"; // MySQL host name eg. localhost
 
