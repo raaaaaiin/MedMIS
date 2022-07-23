@@ -153,7 +153,42 @@ if(isset($_POST['register'])){
     move_uploaded_file($tmp, "img/" . $uRefNo.".".$extension[1]);
   $lname = $_POST['lname'];
   $position = "Pharmacy";
-    // Validate username
+    // Validate businessname ALERT ONLY APPLICABLE FOR PHARMACY
+    if(empty(trim($_POST["lname"]))){
+        $username_err = "Please enter a username.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT u_id FROM user_account WHERE lname = ?";
+        
+        if($stmt = mysqli_prepare($conn, $sql)){
+            // Set parameters
+            $param_lname = trim($_POST["lname"]);
+
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_lname);
+            
+      
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                
+                if(mysqli_stmt_num_rows($stmt) <= 1){
+                    $lname_err = "This Business Name is already taken. ";
+                } else{
+                    $lname = $_POST['lname'];
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later. ";
+            }
+        }
+         
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    //Validate username
     if(empty(trim($_POST["username2"]))){
         $username_err = "Please enter a username.";
     } else{
@@ -161,24 +196,26 @@ if(isset($_POST['register'])){
         $sql = "SELECT u_id FROM user_account WHERE username = ?";
         
         if($stmt = mysqli_prepare($conn, $sql)){
+            // Set parameters
+            $param_username = trim($_POST["username2"]);
+
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
-            // Set parameters
-            $param_username = trim($_POST["username2"]);
+      
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 /* store result */
                 mysqli_stmt_store_result($stmt);
                 
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
+                if(mysqli_stmt_num_rows($stmt) <= 1){
+                    $username_err = "This username is already taken. ";
                 } else{
                     $username = trim($_POST["username2"]);
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Something went wrong. Please try again later. ";
             }
         }
          
@@ -187,30 +224,31 @@ if(isset($_POST['register'])){
     }
     
 	if(empty(trim($_POST["email2"]))){
-        $email_err = "Please enter a email.";
+        $email_err = "Please enter a email. ";
     } else{
         // Prepare a select statement
         $sql = "SELECT u_id FROM user_account WHERE email = ?";
         
         if($stmt = mysqli_prepare($conn, $sql)){
+         $param_email = trim($_POST["email2"]);
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_email);
             
             // Set parameters
-            $param_email = trim($_POST["email2"]);
+           
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 /* store result */
                 mysqli_stmt_store_result($stmt);
                 
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $email_err = "This email is already taken.";
+                if(mysqli_stmt_num_rows($stmt) <= 1){
+                    $email_err = "This email is already taken. ";
                 } else{
                     $email = trim($_POST["email2"]);
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Something went wrong. Please try again later. ";
             }
         }
          
@@ -219,25 +257,25 @@ if(isset($_POST['register'])){
     }
     // Validate password
     if(empty(trim($_POST["password2"]))){
-        $password_err = "Please enter a password.";     
+        $password_err = "Please enter a password. ";     
     } elseif(strlen(trim($_POST["password2"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
+        $password_err = "Password must have atleast 6 characters. ";
     } else{
         $password = trim($_POST["password2"]);
     }
     
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm password.";     
+        $confirm_password_err = "Please confirm password. ";     
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
+            $confirm_password_err = "Password did not match. ";
         }
     }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err) && empty($lname_err)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO user_account (username,email,password,fname,mname,lname,position,user_id_number,status,brgy,city,ref) VALUES (?,?,?,'','$name','$lname','$position','','Approve','$brgy','$city','')";
@@ -281,6 +319,16 @@ if(isset($_POST['register'])){
          
         // Close statement
         mysqli_stmt_close($stmt);
+    }else{
+    echo '<script>
+									function myFunction() {
+									swal({
+									title: "Failed!",
+									text: "'.$username_err.$email_err.$password_err.$confirm_password_err.$lname_err.'",
+									icon: "error",
+									button: "Ok",
+									});}
+									</script>';
     }
     
     // Close connection
