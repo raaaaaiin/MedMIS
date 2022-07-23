@@ -42,7 +42,7 @@ input::-webkit-inner-spin-button {
                 <h1 class="h4 text-white-900 mb-4" >Create an Account</h1>
               </div>
               <form class="user"  method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype = "multipart/form-data" autocomplete="off">
-                <div class="form-group row">
+                <div class="form-group row" style="justify-content: center;">
                   <div class="col-sm-4 mb-3 mb-sm-0">
                       <center>
                     <a href="register-customer.php"><img src="upload/cart.png" width="100px" style="margin-left:-10px;"> <h6>Client</h6></a>
