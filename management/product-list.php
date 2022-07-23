@@ -92,7 +92,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 					
 				$u_id1 = $_GET['u_id'];
 				
-				$sql2="SELECT count(*) AS total2 FROM `product` WHERE `product_qty`!='0' AND `product_updated_date`!='Deleted' AND `product_user`='$u_id1'";
+				$sql2="SELECT count(*) AS total2 FROM `product` WHERE `product_qty`!='0' AND `product_updated_date`='Active' AND `product_user`='$u_id1'";
 				$result2=mysqli_query($conn,$sql2);
 				$data2=mysqli_fetch_assoc($result2);
 				$product_count = $data2['total2'];
