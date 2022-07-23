@@ -269,7 +269,17 @@ if(isset($_POST['register'])){
         // Close statement
         mysqli_stmt_close($stmt);
     }
-    
+    else{
+    echo '<script>
+									function myFunction() {
+									swal({
+									title: "Failed!",
+									text: "'.$username_err.$email_err.$password_err.$confirm_password_err.$lname_err.'",
+									icon: "error",
+									button: "Ok",
+									});}
+									</script>';
+    }
     // Close connection
     mysqli_close($conn);
 }
