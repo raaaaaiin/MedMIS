@@ -401,21 +401,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				$qa = $conn->query("SELECT * FROM `cashin` WHERE `cashin_user_id` = '3'") or die(msqli_error());
 				$fa = $qa->fetch_array();
 				?>
-				<input type="" name="cart_order_id" value="<?php echo $f2['cart_order_id']?>">
-				<input type="" name="u_id" value="<?php echo $f2['cart_order_uid']?>">
+				<input type="hidden" name="cart_order_id" value="<?php echo $f2['cart_order_id']?>">
+				<input type="hidden" name="u_id" value="<?php echo $f2['cart_order_uid']?>">
 				
-                <input type="" name="total_amount"      value="<?php echo $total_amount?>">
-                <input type="" name="cashin_total"      value="<?php echo $f3['cashin_total']; ?>">
-                <input type="" name="cashin_total_d"    value="<?php echo $cashin_total ?>">
-                <input type="" name="cashin_total_s"    value="<?php echo $cashin_total1 ?>">
-                <input type="" name="cart_order"        value="<?php echo $f2['cart_order_add']; ?>">
-                <input type="" name="u_id1" value="<?php echo $u_id; ?>">
-                <input type="" name="cart_order_driver" value="<?php echo $f2['cart_order_driver']; ?>">
-                <input type="" name="total1" value="<?php echo $total1 ?>">
-                <input type="" name="total2" value="<?php echo $total2 ?>">
-                <input type="" name="total3" value="<?php echo $fa['cashin_total'] ?>">
-                <input type="" name="cart_order_delivery" value="<?php echo $cart_order_delivery ?>">
-                <input type="" name="cart_order_payment" value="<?php echo $cart_order_payment ?>">
+                <input type="hidden" name="total_amount"      value="<?php echo $total_amount?>">
+                <input type="hidden" name="cashin_total"      value="<?php echo $f3['cashin_total']; ?>">
+                <input type="hidden" name="cashin_total_d"    value="<?php echo $cashin_total ?>">
+                <input type="hidden" name="cashin_total_s"    value="<?php echo $cashin_total1 ?>">
+                <input type="hidden" name="cart_order"        value="<?php echo $f2['cart_order_add']; ?>">
+                <input type="hidden" name="u_id1" value="<?php echo $u_id; ?>">
+                <input type="hidden" name="cart_order_driver" value="<?php echo $f2['cart_order_driver']; ?>">
+                <input type="hidden" name="total1" value="<?php echo $total1 ?>">
+                <input type="hidden" name="total2" value="<?php echo $total2 ?>">
+                <input type="hidden" name="total3" value="<?php echo $fa['cashin_total'] ?>">
+                <input type="hidden" name="cart_order_delivery" value="<?php echo $cart_order_delivery ?>">
+                <input type="hidden" name="cart_order_payment" value="<?php echo $cart_order_payment ?>">
               
 				</div>
 			</div>
@@ -466,7 +466,7 @@ if (isset($_POST['update_order'])) {
             
 
                 if ($total1_e >= 1) {
-                $update3 = $conn->query("UPDATE `cashin` SET `cashin_total`= '$cashin_total_d' WHERE `cashin_user_id` = '$cart_order_driver'");
+                $update3 = $conn->query("UPDATE `cashin` SET `cashin_total`= `cashin_total` + '$cashin_total_d' WHERE `cashin_user_id` = '$cart_order_driver'");
                     if ($update3) {
                 }
             }       else {
@@ -477,7 +477,7 @@ if (isset($_POST['update_order'])) {
 
               //Admin
 			    if ($total2_e >= 1) {
-            $update4 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_s' WHERE `cashin_user_id` = '$u_id1'");
+            $update4 = $conn->query("UPDATE `cashin` SET `cashin_total`=`cashin_total` + '$cashin_total_s' WHERE `cashin_user_id` = '$u_id1'");
                 if ($update4) {}
             }
                 else {
@@ -489,16 +489,18 @@ if (isset($_POST['update_order'])) {
 
 
             //Store 
-			 $update5 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_p' WHERE `cashin_user_id` = '3'");
+			 $update5 = $conn->query("UPDATE `cashin` SET `cashin_total`=`cashin_total` + ' $cashin_total_p' WHERE `cashin_user_id` = '3'");
                 if ($update5) {
                 }
-                if ($cart_order_payment1 == "E Wallet Method") {
-            $update2 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_final' WHERE `cashin_user_id` = '$u_id_u'");
-                if ($update2) {}
-                }
+               
 
 
             }
+        }else{
+         if ($cart_order_payment1 == "E Wallet Method") {
+            $update2 = $conn->query("UPDATE `cashin` SET `cashin_total`=`cashin_total` + '$cashin_total_final' WHERE `cashin_user_id` = '$u_id_u'");
+                if ($update2) {}
+                }
         }
         
         
