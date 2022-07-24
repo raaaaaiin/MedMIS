@@ -353,11 +353,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 						<label>Status</label>
 						<select type="text" name="status" class = "form-control" required  style="text-transform:capitalize;">
 							<option value="">Select Status</option>
-							<option value="Pending">-Pending</option>
-							<option value="Confirm">-Confirm</option>
-							<option value="ReadyDispatch">-Ready to Dispatch</option>
-							<option value="Delivering">-Delivering</option>
-							<option value="Done">-Done Transaction</option>
+							<?php if($cart_order_status == "Pending") {?><option value="Confirm">-Confirm</option><?php }?>
+							<?php if($cart_order_status == "Confirm") {?><option value="ReadyDispatch">-Ready to Dispatch</option><?php } ?>
+							<?php if($cart_order_status == "ReadyDispatch") {?><option value="Delivering">-Delivering</option><?php } ?>
+							<?php if($cart_order_status == "Delivering") {?><option value="Done">-Done Transaction</option><?php } ?>
 						</select>
 				</div>
                 <div class="col-sm-12 mb-3 mb-sm-0">
