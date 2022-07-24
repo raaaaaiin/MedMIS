@@ -168,7 +168,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				<i class="fas fa fa-list fa-m text-white-100" style="font-size:15px;" title="Mail"></i> View ID and Prescription			
 			</a> 
 	  <div class="printPageButton">  
-			<!--<a href="#"   onclick="window.print()" class = "btn-info btn-m btn"  style="color:black;"> <i class="fas fa-print fa-m"></i> Print this page</a>--->
+			<!--<a href="#"   onclick="window.print()" class = "btn-info btn-m btn"  style="color:black;"> <i class="fas fa-print fa-m"></i> Print this page</a>-->
 			
 	   </div>
 	   
@@ -401,21 +401,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				$qa = $conn->query("SELECT * FROM `cashin` WHERE `cashin_user_id` = '3'") or die(msqli_error());
 				$fa = $qa->fetch_array();
 				?>
-				<input type="hidden" name="cart_order_id" value="<?php echo $f2['cart_order_id']?>">
-				<input type="hidden" name="u_id" value="<?php echo $f2['cart_order_uid']?>">
+				<input type="" name="cart_order_id" value="<?php echo $f2['cart_order_id']?>">
+				<input type="" name="u_id" value="<?php echo $f2['cart_order_uid']?>">
 				
-                <input type="hidden" name="total_amount"      value="<?php echo $total_amount?>">
-                <input type="hidden" name="cashin_total"      value="<?php echo $f3['cashin_total']; ?>">
-                <input type="hidden" name="cashin_total_d"    value="<?php echo $cashin_total ?>">
-                <input type="hidden" name="cashin_total_s"    value="<?php echo $cashin_total1 ?>">
-                <input type="hidden" name="cart_order"        value="<?php echo $f2['cart_order_add']; ?>">
-                <input type="hidden" name="u_id1" value="<?php echo $u_id; ?>">
-                <input type="hidden" name="cart_order_driver" value="<?php echo $f2['cart_order_driver']; ?>">
-                <input type="hidden" name="total1" value="<?php echo $total1 ?>">
-                <input type="hidden" name="total2" value="<?php echo $total2 ?>">
-                <input type="hidden" name="total3" value="<?php echo $fa['cashin_total'] ?>">
-                <input type="hidden" name="cart_order_delivery" value="<?php echo $cart_order_delivery ?>">
-                <input type="hidden" name="cart_order_payment" value="<?php echo $cart_order_payment ?>">
+                <input type="" name="total_amount"      value="<?php echo $total_amount?>">
+                <input type="" name="cashin_total"      value="<?php echo $f3['cashin_total']; ?>">
+                <input type="" name="cashin_total_d"    value="<?php echo $cashin_total ?>">
+                <input type="" name="cashin_total_s"    value="<?php echo $cashin_total1 ?>">
+                <input type="" name="cart_order"        value="<?php echo $f2['cart_order_add']; ?>">
+                <input type="" name="u_id1" value="<?php echo $u_id; ?>">
+                <input type="" name="cart_order_driver" value="<?php echo $f2['cart_order_driver']; ?>">
+                <input type="" name="total1" value="<?php echo $total1 ?>">
+                <input type="" name="total2" value="<?php echo $total2 ?>">
+                <input type="" name="total3" value="<?php echo $fa['cashin_total'] ?>">
+                <input type="" name="cart_order_delivery" value="<?php echo $cart_order_delivery ?>">
+                <input type="" name="cart_order_payment" value="<?php echo $cart_order_payment ?>">
               
 				</div>
 			</div>
@@ -430,74 +430,97 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       </div>
     </div>
   </div> 
-  <?php
-  if(isset($_POST['update_order'])){
-	  $cart_order_id = $_POST['cart_order_id'];
-	  $status 		 = $_POST['status'];
-	  $cart_order_delivery1 = $_POST['cart_order_delivery'];
-	  $cart_order_payment1 		 = $_POST['cart_order_payment'];
-	  $quantity 	 = $_POST['quantity'];
-	  $u_id_u		 = $_POST['u_id'];
-	  $cart_order	 = $_POST['cart_order'];
-	  $total_amount	 = $_POST['total_amount'] + 59;
-	  $cashin_total	 = $_POST['cashin_total'];
-	  $u_id1	 = $_POST['u_id1'];
-	  $cart_order_driver	 = $_POST['cart_order_driver'];
-	  $total1_e	    = $_POST['total1'];
-	  $total2_e	    = $_POST['total2'];
-	  $cashin_total_d	 = $_POST['cashin_total_d'] + 59;
-	  $total_final	  = $total_amount - 59;
-	  $cashin_total_p = $total_final * 0.1;	
-	  $cashin_total_s = $total_final - $cashin_total_p;	 
-	  $cashin_total_a = $total_final * 0.1;	 
-	  $cashin_total_af = $cashin_total_a + $total3;	
-	  $cashin_total_final =$cashin_total - $total_amount;
-	   if($status == "Done"){
-	       
-				//Driver
-	    if($cart_order_delivery1=="Delivery"){
-				if($total1_e>=1){ 
-	                 $update3 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_d' WHERE `cashin_user_id` = '$cart_order_driver'");	
-		            if ($update3) {}  
-				}else{
-				    $sqli = "INSERT INTO cashin VALUES(null,'59','$cart_order_driver')";	
-				    if (mysqli_query($conn, $sqli)) {}
-				}
-	    }		
-				//Store
-				if($total2_e>=1){ 
-	                 $update4 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_s' WHERE `cashin_user_id` = '$u_id1'");	
-		            if ($update4) {}  
-				}else{
-				    $sqli1 = "INSERT INTO cashin VALUES(null,'$cashin_total_s','$u_id1')";	
-				   if (mysqli_query($conn, $sqli1)) {}
-				//Admin
-				}
-	                 $update5 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_p' WHERE `cashin_user_id` = '3'");	
-		            if ($update5) {}  
-				
-		
-	    if($cart_order_payment1=="E Wallet Method"){
-	        $update2 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_final' WHERE `cashin_user_id` = '$u_id_u'");	
-		    if ($update2) {}  
-	    }		
-	    }
-		$result1=$conn->query("UPDATE `cart_order` SET `cart_order_status`='$status' WHERE `cart_order_add`='$cart_order'");
-		if($result1){
-									echo '<script>
+<?php
+if (isset($_POST['update_order'])) {
+
+    $cart_order_id = $_POST['cart_order_id'];
+    $status = $_POST['status'];
+    $cart_order_delivery1 = $_POST['cart_order_delivery'];
+    $cart_order_payment1 = $_POST['cart_order_payment'];
+    $quantity = $_POST['quantity'];
+    $u_id_u = $_POST['u_id'];
+    $cart_order = $_POST['cart_order'];
+    $total_amount = $_POST['total_amount'] + 59;
+    $cashin_total = $_POST['cashin_total'];
+    $u_id1 = $_POST['u_id1'];
+    $cart_order_driver = $_POST['cart_order_driver'];
+    $total1_e = $_POST['total1'];
+    $total2_e = $_POST['total2'];
+    $cashin_total_d = $_POST['cashin_total_d'] + 59;
+    $total_final = $total_amount - 59;
+    $cashin_total_p = $total_final * 0.1;
+    $cashin_total_s = $total_final - $cashin_total_p;
+    $cashin_total_a = $total_final * 0.1;
+    $cashin_total_af = $cashin_total_a + $total3;
+    $cashin_total_final = $cashin_total - $total_amount;
+   
+    if ($status == "Done") {
+   
+        //Driver
+        if ($cart_order_delivery1 == "Delivery") {
+
+            if ($cart_order_payment1 == "Cash") {
+            
+            } 
+            else {
+            
+
+                if ($total1_e >= 1) {
+                $update3 = $conn->query("UPDATE `cashin` SET `cashin_total`= '$cashin_total_d' WHERE `cashin_user_id` = '$cart_order_driver'");
+                    if ($update3) {
+                }
+            }       else {
+                $sqli = "INSERT INTO cashin VALUES(null,'59','$cart_order_driver')";
+                if (mysqli_query($conn, $sqli)) {
+                }
+            }
+
+              //Admin
+			    if ($total2_e >= 1) {
+            $update4 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_s' WHERE `cashin_user_id` = '$u_id1'");
+                if ($update4) {}
+            }
+                else {
+            $sqli1 = "INSERT INTO cashin VALUES(null,'$cashin_total_s','$u_id1')";
+                if (mysqli_query($conn, $sqli1)) {}
+            }
+
+
+
+
+            //Store 
+			 $update5 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_p' WHERE `cashin_user_id` = '3'");
+                if ($update5) {
+                }
+                if ($cart_order_payment1 == "E Wallet Method") {
+            $update2 = $conn->query("UPDATE `cashin` SET `cashin_total`='$cashin_total_final' WHERE `cashin_user_id` = '$u_id_u'");
+                if ($update2) {}
+                }
+
+
+            }
+        }
+        
+        
+       
+       
+    }
+    $result1 = $conn->query("UPDATE `cart_order` SET `cart_order_status`='$status' WHERE `cart_order_add`='$cart_order'");
+    if ($result1) {
+        echo '<script>
 									function myFunction() {
 										swal({
 										title: "Success! ",
-										text: "Successfully Updated this Order",
+										text: "' . $status . '",
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "order-view.php?view_cart='.$u_id1.'&cart_order='.$cart_order.'";
+										window.location = "order-view.php?view_cart=' . $u_id1 . '&cart_order=' . $cart_order . '";
 									  });}
 									
-								  </script>';			
-						}else{
-							echo '<script>
+								  </script>';
+    } else {
+        echo '<script>
 									function myFunction() {
 									swal({
 									title: "Failed!",
@@ -506,9 +529,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									button: "Ok",
 									});}
 									</script>';
-								}
-  }
-  ?>
+    }
+}
+?>
   
     <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
