@@ -252,7 +252,8 @@
             				});}
             				</script>';
                 
-            }else{    
+            }else{   
+            $cur_date = date("Y-m-d h:i:sa");
             $address = $_POST['address'];
             $cart_pharmacy = $_POST['cart_pharmacy'];
             $option = $_POST['option'];
