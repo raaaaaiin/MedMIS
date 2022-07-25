@@ -81,6 +81,7 @@
          <?php
             $qc = $conn->query("SELECT * FROM `cashin` WHERE `cashin_user_id` = '$u_id'") or die(msqli_error());
             $fc = $qc->fetch_array();
+            $delfee = 59;
             $total_cash = $fc['cashin_total'];
                 if($fc['cashin_total']==null){
                    echo "0"; 
@@ -190,7 +191,6 @@
                   <select class="form-select" name="option" style="text-transform:capitalize;width:100%;">
                      <option value="">Select Receiving Option</option>
                      <option value="Delivery">Delivery</option>
-                     <option value="Pick Up">Pick Up</option>
                   </select>
                </div>
                <div class="col-sm-12 mb-sm-0"  >
@@ -199,7 +199,6 @@
                      <option value="">Select Payment Option</option>
                      <option value="Cash">Cash</option>
                      <option value="E Wallet Method">E Wallet Method</option>
-                     <option value="GCash">GCash</option>
                   </select>
                  
                   <div class="modal fade" id="gcash" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -240,6 +239,7 @@
             if(isset($_POST['check_out'])){
             $option1 = $_POST['option1'];
             if($option1=="E Wallet Method"){
+            $total_price_all += $delfee;
             if($total_price_all>=$total_cash){ 
                 
                     echo '<script>
@@ -283,6 +283,7 @@
             $sql3r ="INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy')";
             if (mysqli_query($conn,$sql3r)) {}	
             $result1=$conn->query("UPDATE `cart` SET `status`='Ordered',`cart_ref`='$ref' WHERE `cart_user`='$u_id' AND `status`='Pending'");
+            $reduceMoney=$conn->query("UPDATE `cashin` SET `cashin_total`=`cashin_total` - $total_price_all  WHERE `cashin_user_id` = '$u_id' ");
             if($result1){
             echo '<script>
             				function myFunction() {
