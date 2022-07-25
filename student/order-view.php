@@ -465,7 +465,7 @@ if (isset($_POST['update_order'])) {
             
 
                 if ($total1_e >= 1) {
-                $update3 = $conn->query("UPDATE `cashin` SET `cashin_total`= `cashin_total` + '$cashin_total_d' WHERE `cashin_user_id` = '$cart_order_driver'");
+                $update3 = $conn->query("UPDATE `cashin` SET `cashin_total`= `cashin_total` + '59' WHERE `cashin_user_id` = '$cart_order_driver'");
                     if ($update3) {
                 }
             }       else {
