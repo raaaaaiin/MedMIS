@@ -142,41 +142,354 @@ i,p{
     <!-- /.sidebar -->
   </aside>
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+ <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard </h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-		 
-		 </div>
-           <!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
+   <div class="main-section d-flex justify-content-center"><div class="container" style="  max-width: 1400px;">
 
-  <div class="row" id="wp">
-           
-          <!-- /.col -->
-           
-          
-           
-        </div><br>
-        <div class="row">
-          <!-- /.col -->
-        </div> <!-- /.content-wrapper -->
+                
 
-        <!-- /.row -->
-        <!-- Main row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+
+            
+
+
+             
+    
+
+                        <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+                        
+                        
+
+                       
+                        
+                        
+
+
+
+                        <div class="row">
+                             <?php  
+							$username = htmlspecialchars($_SESSION["username"]);
+							$q = $conn->query("SELECT COUNT(*) as total_order FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id'") or die(msqli_error());
+							$pharma = $q->fetch_array();
+							
+								$totalcount=$pharma['total_order'];
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `product` WHERE `product_user` = '$u_id' AND product_updated_date = 'Active'") or die(msqli_error());
+                             $pharma = $q->fetch_array();
+                             $activeProd=$pharma['active_prod'];
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `product` WHERE `product_user` = '$u_id' AND product_updated_date != 'Active'") or die(msqli_error());
+                             $pharma = $q->fetch_array();
+                             $deactiveProd=$pharma['active_prod'];
+                             $q = $conn->query("SELECT cashin_total as balance FROM `cashin` WHERE `cashin_user_id` = '$u_id'") or die(msqli_error());
+                             $pharma = $q->fetch_array();
+                             $balance=$pharma['balance'];
+						    ?>  
+                            <div class="col-lg-3 col-6">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body cyan cy" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                        <h5 class="text-muted">Total Order</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><?php echo $totalcount ?></h1>
+                                        </div>
+                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                            <span><!-- <i class="fa fa-fw fa-arrow-up"></i> Font Awesome fontawesome.com --></span>
+                                        </div>
+                                    </div>
+                                    <div id="sparkline-revenue"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body cyan">
+                                        <h5 class="text-muted">Pharmacy</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><?php echo $activeProd ?></h1>
+                                        </div>
+                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                            <span><!-- <i class="fa fa-fw fa-arrow-up"></i> Font Awesome fontawesome.com --></span>
+                                        </div>
+                                    </div>
+                                    <div id="sparkline-revenue2"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body cyan">
+                                        <h5 class="text-muted">Driver</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><?php echo $deactiveProd ?></h1>
+                                        </div>
+                                        
+                                    </div>
+                                    <div id="sparkline-revenue3"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body cyan">
+                                        <h5 class="text-muted">Costumer</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1"><?php echo $balance ?> PHP</h1>
+                                        </div>
+                                        
+                                    </div>
+                                    <div id="sparkline-revenue4"></div>
+                                </div>
+                            </div>
+                        <div class="col-lg-12">
+                                <div class="card">
+                                    <h5 class="card-header">Total transaction</h5>
+                                    <div class="card-body cyan p-0">
+                                        <div class="table-responsive">
+                                        
+                                            <table class="table">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">No</th>
+                                                        <th class="border-0">Cart ID</th>
+                                                        <th class="border-0">Pharmacy Name</th>
+                                                        <th class="border-0">Customer Name</th>
+                                                        <th class="border-0">Address</th>
+                                                        <th class="border-0">Rider Name</th>
+                                                        <th class="border-0">Delivery type</th>
+                                                        <th class="border-0">Payment Type</th>
+                                                        <th class="border-0">Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="max-height: 500px;
+  overflow-y: scroll;";>
+                                                     <tr>
+
+
+                                                     <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE cart_order_status = 'Done' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     </tr>
+                                                        <td><?php echo $i ?></td>
+                                                       
+                                                       
+                                                        <td><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></td> 
+
+
+                                                         <td><?php 
+                                                        $userid = $key['cart_pharmacy_id'];
+                                                        $name = $conn->query("SELECT Concat(`lname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo $res['name'] 
+                                                        
+                                                        
+                                                        
+                                                        ?></td> 
+                                                        <td><?php 
+                                                        $userid = $key['cart_order_uid'];
+                                                        $name = $conn->query("SELECT Concat(`lname`,' ',`fname`,' ',`mname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo $res['name'] 
+                                                        
+                                                        
+                                                        
+                                                        ?></td> 
+                                                        <td><?php echo $key['cart_order_name'] ?></td>
+                                                        
+                                                        <td><?php 
+                                                        $userid = $key['cart_order_driver'];
+                                                        $name = $conn->query("SELECT Concat(`lname`,' ',`fname`,' ',`mname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo $res['name'] 
+                                                        
+                                                        
+                                                        
+                                                        ?></td>
+                                                        <td><?php echo $key['cart_order_delivery'] ?></td> 
+                                                        <td><?php echo $key['cart_order_payment'] ?></td>
+                                                        <td><?php echo $key['cart_order_date'] ?></td> 
+                                                     <tr>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+
+
+
+                                                       
+                                                        
+                                                    
+                                                                                                       
+                                                       
+                                                                                                           
+                                                    
+                                                    
+                                                   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <!-- ============================================================== -->
+                                <!-- social source  -->
+                                <!-- ============================================================== -->
+                                                                <div class="card">
+                                    <h5 class="card-header">Pending</h5>
+                                    <div class="card-body cyan p-0">
+                                        <ul class="social-sales list-group list-group-flush" style="
+    min-height:200px;">
+
+                                        <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE cart_order_status = 'Pending' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     <li class="list-group-item social-sales-content"><span class="social-sales-name"><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></span><span style="color: #c6c6c6;" class="float-right text-dark"><?php echo $key['cart_order_name'] . ' ' .$key['cart_order_date'] ?></span>
+                                            </li>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+
+
+                                            
+                                                                                                        
+                                            
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                    </div>
+                                </div>
+                                <!-- ============================================================== -->
+                                <!-- end social source  -->
+                                <!-- ============================================================== -->
+                            </div>
+                            <div class="col-lg-4">
+                                                            <!-- ============================================================== -->
+                                <!-- sales traffice source  -->
+                                <!-- ============================================================== -->
+                                <div class="card">
+                                    <h5 class="card-header">Confirm</h5>
+                                    <div class="card-body cyan p-0">
+                                    <ul class="country-sales list-group list-group-flush" style="
+    min-height:200px;">
+                                                                                 <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE cart_order_status = 'Confirm' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     <li class="list-group-item social-sales-content"><span class="social-sales-name"><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></span><span style="color: #c6c6c6;" class="float-right text-dark"><?php echo $key['cart_order_name']. ' ' .$key['cart_order_date'] ?></span>
+                                            </li>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+                                                                                   
+                                           
+                                        </ul>
+                                        <div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============================================================== -->
+                            <!-- end sales traffice source  -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- sales traffic country source  -->
+                            <!-- ============================================================== -->
+                            <div class="col-lg-4">
+                                                            <div class="card">
+                                    <h5 class="card-header">Ready to Dispatch</h5>
+                                    <div class="card-body cyan p-0">
+                                        <ul class="country-sales list-group list-group-flush" style="
+    min-height:200px;">
+                                                                                   <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE cart_order_status = 'ReadyDispatch' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     <li class="list-group-item social-sales-content"><span class="social-sales-name"><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></span><span style="color: #c6c6c6;" class="float-right text-dark"><?php echo $key['cart_order_name'] . ' ' .$key['cart_order_date'] ?></span>
+                                            </li>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+                                                           
+                                                                                   
+                                           
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============================================================== -->
+                            <!-- end sales traffice country source  -->
+                            <!-- ============================================================== -->
+                        </div>
+</div> 
+</div>
   </div>
   <!-- /.content-wrapper -->
 
