@@ -228,19 +228,19 @@ table {
                         <div class="row">
                              <?php  
 							$username = htmlspecialchars($_SESSION["username"]);
-							$q = $conn->query("SELECT COUNT(*) as total_order FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id'") or die(msqli_error());
+							$q = $conn->query("SELECT COUNT(*) as total_order FROM `cart_order`") or die(msqli_error());
 							$pharma = $q->fetch_array();
 							
 								$totalcount=$pharma['total_order'];
-                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `product` WHERE `product_user` = '$u_id' AND product_updated_date = 'Active'") or die(msqli_error());
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `user_account` WHERE `position` = 'Pharmacy' ") or die(msqli_error());
                              $pharma = $q->fetch_array();
                              $activeProd=$pharma['active_prod'];
-                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `product` WHERE `product_user` = '$u_id' AND product_updated_date != 'Active'") or die(msqli_error());
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `user_account` WHERE `position` = 'Driver' ") or die(msqli_error());
                              $pharma = $q->fetch_array();
                              $deactiveProd=$pharma['active_prod'];
-                             $q = $conn->query("SELECT cashin_total as balance FROM `cashin` WHERE `cashin_user_id` = '$u_id'") or die(msqli_error());
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `user_account` WHERE `position` = 'Client' ") or die(msqli_error());
                              $pharma = $q->fetch_array();
-                             $balance=$pharma['balance'];
+                             $balance=$pharma['active_prod'];
 						    ?>  
                             <div class="col-lg-3 col-6">
                                 <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
@@ -291,9 +291,9 @@ table {
                             <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
                                 <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
                                     <div class="card-body cyan">
-                                        <h5 class="text-muted">Costumer</h5>
+                                        <h5 class="text-muted">Client</h5>
                                         <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1"><?php echo $balance ?> PHP</h1>
+                                            <h1 class="mb-1"><?php echo $balance ?></h1>
                                         </div>
                                         
                                     </div>
