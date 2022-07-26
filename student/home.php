@@ -136,38 +136,318 @@ i,p{
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard </h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-		  </div>
-           <!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
+   <div class="main-section d-flex justify-content-center"><div class="container" style="  max-width: 1400px;">
 
-  <div class="row" id="wp">
-           
-          <!-- /.col -->
-           
-          
-           
-        </div><br>
-        <div class="row">
-          <!-- /.col -->
-        </div> <!-- /.content-wrapper -->
+                
 
-        <!-- /.row -->
-        <!-- Main row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+
+            
+
+
+             
+    
+
+                        <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+                        
+                        
+
+                       
+                        
+                        
+
+
+
+                        <div class="row">
+
+                            <div class="col-lg-3 col-6">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                        <h5 class="text-muted">Total Order</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">34</h1>
+                                        </div>
+                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                            <span><!-- <i class="fa fa-fw fa-arrow-up"></i> Font Awesome fontawesome.com --></span>
+                                        </div>
+                                    </div>
+                                    <div id="sparkline-revenue"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">Active Medicine</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">3</h1>
+                                        </div>
+                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                            <span><!-- <i class="fa fa-fw fa-arrow-up"></i> Font Awesome fontawesome.com --></span>
+                                        </div>
+                                    </div>
+                                    <div id="sparkline-revenue2"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">Disabled Medicine</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">2</h1>
+                                        </div>
+                                        
+                                    </div>
+                                    <div id="sparkline-revenue3"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">Profit</h5>
+                                        <div class="metric-value d-inline-block">
+                                            <h1 class="mb-1">353</h1>
+                                        </div>
+                                        
+                                    </div>
+                                    <div id="sparkline-revenue4"></div>
+                                </div>
+                            </div>
+                        <div class="col-lg-12">
+                                <div class="card">
+                                    <h5 class="card-header">Complete transaction</h5>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">No</th>
+                                                        <th class="border-0">Image</th>
+                                                        <th class="border-0">Book Name</th>
+                                                        <th class="border-0">Author</th>
+                                                        <th class="border-0">Borrow Date</th>
+                                                        
+                                                        <th class="border-0">Return Date</th>
+                                                        <th class="border-0">Borrower</th>
+                                                        <th class="border-0">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                                                                    <tr>
+                                                        <td>68</td>
+                                                        <td>
+                                                            <div class="m-r-10"><img src="https://www.elibsti.com/uploads/LRFT1jS00jFe5Yfuwv7zNzLSaJKHC2HQ20GLmvoB.jpg" alt="user" class="rounded" width="45"></div>
+                                                        </td>
+                                                        <td>Serial Innovators</td>
+                                                        <td>	Mark Myers</td>
+                                                        <td>2022-06-03</td>
+                                                        
+                                                        <td></td>
+                                                        <td>Administrator</td>
+                                                        <td><span class="badge-dot badge-brand mr-1"></span>Issued</td>
+                                                    </tr>
+                                                                                                        <tr>
+                                                        <td>67</td>
+                                                        <td>
+                                                            <div class="m-r-10"><img src="https://www.elibsti.com/uploads/LRFT1jS00jFe5Yfuwv7zNzLSaJKHC2HQ20GLmvoB.jpg" alt="user" class="rounded" width="45"></div>
+                                                        </td>
+                                                        <td>History of Europe</td>
+                                                        <td>	Mark Myers</td>
+                                                        <td>2022-05-29</td>
+                                                        
+                                                        <td>2022-06-03</td>
+                                                        <td>Administrator</td>
+                                                        <td><span class="badge-dot badge-brand mr-1"></span>Returned</td>
+                                                    </tr>
+                                                                                                        <tr>
+                                                        <td>66</td>
+                                                        <td>
+                                                            <div class="m-r-10"><img src="https://www.elibsti.com/uploads/LRFT1jS00jFe5Yfuwv7zNzLSaJKHC2HQ20GLmvoB.jpg" alt="user" class="rounded" width="45"></div>
+                                                        </td>
+                                                        <td>Bionic</td>
+                                                        <td>	Mark Myers</td>
+                                                        <td>2022-06-02</td>
+                                                        
+                                                        <td>2022-06-03</td>
+                                                        <td>Administrator</td>
+                                                        <td><span class="badge-dot badge-brand mr-1"></span>Returned</td>
+                                                    </tr>
+                                                                                                           
+                                                    
+                                                    
+                                                   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a href="#" class="btn-primary-link">Next</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <!-- ============================================================== -->
+                                <!-- social source  -->
+                                <!-- ============================================================== -->
+                                                                <div class="card">
+                                    <h5 class="card-header">Pending</h5>
+                                    <div class="card-body p-0">
+                                        <ul class="social-sales list-group list-group-flush">
+                                                                                    <li class="list-group-item social-sales-content"><span class="social-sales-name">Serial Innovators</span><span style="color: #c6c6c6;" class="float-right text-dark">1 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                        <li class="list-group-item social-sales-content"><span class="social-sales-name">History of Europe</span><span style="color: #c6c6c6;" class="float-right text-dark">1 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                        <li class="list-group-item social-sales-content"><span class="social-sales-name">Bionic</span><span style="color: #c6c6c6;" class="float-right text-dark">1 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                        
+                                            
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a href="#" class="btn-primary-link">Next</a>
+                                    </div>
+                                </div>
+                                <!-- ============================================================== -->
+                                <!-- end social source  -->
+                                <!-- ============================================================== -->
+                            </div>
+                            <div class="col-lg-4">
+                                                            <!-- ============================================================== -->
+                                <!-- sales traffice source  -->
+                                <!-- ============================================================== -->
+                                <div class="card">
+                                    <h5 class="card-header">Confirm</h5>
+                                    <div class="card-body p-0">
+                                    <ul class="country-sales list-group list-group-flush">
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">940 History of Europe</span><span style="color: #c6c6c6;" class="float-right text-dark">401 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">010 Bibliographies</span><span style="color: #c6c6c6;" class="float-right text-dark">259 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">Unassigned</span><span style="color: #c6c6c6;" class="float-right text-dark">219 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">Programming</span><span style="color: #c6c6c6;" class="float-right text-dark">52 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">020 Library &amp; information sciences</span><span style="color: #c6c6c6;" class="float-right text-dark">42 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">120 Epistemology </span><span style="color: #c6c6c6;" class="float-right text-dark">7 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">690 Building &amp; construction</span><span style="color: #c6c6c6;" class="float-right text-dark">7 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">960 History of Africa</span><span style="color: #c6c6c6;" class="float-right text-dark">5 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">110 Metaphysics</span><span style="color: #c6c6c6;" class="float-right text-dark">5 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="" class="">970 History of North America</span><span style="color: #c6c6c6;" class="float-right text-dark">4 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                   
+                                           
+                                        </ul>
+                                        <div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a href="#" class="btn-primary-link">Next</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============================================================== -->
+                            <!-- end sales traffice source  -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- sales traffic country source  -->
+                            <!-- ============================================================== -->
+                            <div class="col-lg-4">
+                                                            <div class="card">
+                                    <h5 class="card-header">Ready to Dispatch</h5>
+                                    <div class="card-body p-0">
+                                        <ul class="country-sales list-group list-group-flush">
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Things We Lost in the Fire</span><span style="color: #c6c6c6;" class="float-right text-dark">188 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Kwik kik</span><span style="color: #c6c6c6;" class="float-right text-dark">93 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Incredible Change-Bots Two Point Something So...</span><span style="color: #c6c6c6;" class="float-right text-dark">66 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">yu</span><span style="color: #c6c6c6;" class="float-right text-dark">30 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">KYUKYU</span><span style="color: #c6c6c6;" class="float-right text-dark">25 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Heart of Europe</span><span style="color: #c6c6c6;" class="float-right text-dark">22 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Johnny Boo</span><span style="color: #c6c6c6;" class="float-right text-dark">14 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Century</span><span style="color: #c6c6c6;" class="float-right text-dark">12 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
+                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">From Peoples Into Nations</span><span style="color: #c6c6c6;" class="float-right text-dark">10 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </li>
+                                                                                   
+                                           
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a href="#" class="btn-primary-link">Next</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ============================================================== -->
+                            <!-- end sales traffice country source  -->
+                            <!-- ============================================================== -->
+                        </div>
+</div> 
+</div>
   </div>
   <!-- /.content-wrapper -->
 
