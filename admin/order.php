@@ -96,12 +96,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <div class="info">
           <a href="#" class="d-block" data-toggle="modal" data-target="#editProfile" style="text-transform:capitalize;color:white;text-stroke:2px solid black;">
 		  <?php  
-							$username = htmlspecialchars($_SESSION["username"]);
-							$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
-							$f = $q->fetch_array();
-								$u_id=$f['u_id'];
-								$name = "".$f['lname'];
-									echo $name;
+							
+								$u_id=$_GET['id'];
+								      $userid = $u_id;
+                                                        $name = $conn->query("SELECT Concat(`lname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo 'Admin: '.$res['name'] 
+								
+									
 						?>
 		 </a>
         </div>
@@ -114,12 +116,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <a href="home.php" class="nav-link " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
+                Admin Dashboard
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item has-treeview">
+            <a href="adminview.php?id=<?php echo $u_id ?>" class="nav-link " >
+              <i class="nav-icon fas fa-hospital"></i>
+              <p>
                 Dashboard
               </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="monitoring.php" class="nav-link active">
+            <a href="monitoring.php?id=<?php echo $u_id ?>" class="nav-link ">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
                Product
@@ -127,7 +137,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="order.php" class="nav-link">
+            <a href="order.php" class="nav-link active">
               <i class="nav-icon fas fa-list"></i>
               <p>
               Order 
@@ -153,7 +163,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <div class="content-header">
        <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark printPageButton">Product Information</h1>
+            <h1 class="m-0 text-dark printPageButton">Order Information</h1>
           </div><!-- /.col -->
            <!-- /.col -->
         </div>
@@ -161,109 +171,83 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 		
 		<div class="container-fluid"> 
 		
-	  <div class="printPageButton">  
-			<?php
-			        $product_id = $_GET['product_id'];
-			        $q1 = $conn->query("SELECT * FROM `product` WHERE `product_id` = '$product_id'") or die(msqli_error());
-					$f1 = $q1->fetch_array();
-			?>
-	   </div>		
-        <div class="card shadow mb-4"  style="margin-top:10px;">
+	   <div class="printPageButton">  
+			
+	   </div>
+					
+            <div class="card shadow mb-4"  style="margin-top:10px;">
+	  
 			<div class='card-header py-3 bg-info'>
-            <h6 class="m-0 font-weight-bold" style="color:black;" >Product Data
-            <b  style="color:black;float:right;"></b></h6>
-        </div>
-        <div class="card-body" >
-		<div class = "form-group row" >
-        <div class="col-sm-6 mb-3 mb-sm-0">
-                      <center>
-                      <img src="../student/img/<?php echo $f1['product_img']?>" width="50%">
-                      </center>
-        </div>
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype = "multipart/form-data"autocomplete="off" >
-			<div class="modal-body">
-				 <div class  = "modal-body">
-					<div class="form-group row">
-                  <div class="col-sm-12 mb-3 mb-sm-0">
-						<label>Name</label>
-                    <input type="text" class="form-control"   style="text-transform:capitalize;"required = "required"name = "name" value="<?php echo $f1['product_name']?>">
-                  </div>
-                  </div>
-				<div class = "form-group row" >
-                  <div class="col-sm-3 mb-3 mb-sm-0">
-						<label>Price</label>
-						<input type="text" name="price" class = "form-control" required  style="text-transform:capitalize;" value="<?php echo $f1['product_price']?>">
-				</div>
-				<div class="col-sm-3 mb-3 mb-sm-0">
-						<label>New Quantity  </label>
-						<input type="text" name="new_quantity" class = "form-control"  >
-				</div>
-				<div class="col-sm-3 mb-3 mb-sm-0">
-						<label>Current Quantity  </label>
-						<input type="text" class = "form-control" disabled value="<?php echo $f1['product_qty']?>">
-						<input type="hidden" name="old_quantity" class = "form-control" value="<?php echo $f1['product_qty']?>">
-						<input type="hidden" name="product_id" class = "form-control" value="<?php echo $f1['product_id']?>">
-						<input type="hidden" name="product_qty_add" class = "form-control" value="<?php echo $f1['product_qty_add']?>">
-				</div>	
-				<div class="col-sm-3 mb-3 mb-sm-0">
-						<label>Product Status</label>
-						<select class="form-control" name="status">
-						  <option value="<?php echo $f1['product_updated_date']?>">Selected: <?php echo $f1['product_updated_date']?></option>
-						  <option value="Active">Active</option>
-						  <option value="Deleted">Delete this Product</option>
-						</select>
-				</div>
-				</div>
-				</div>
-		</div>
-        <div class="modal-footer">
-				<a  href="monitoring.php" class = "btn btn-danger" name = "add1" style="float:right;" data-dismiss = "modal" aria-label = "Close">
-				<span class = "fas fa-times"></span> Back</a>
-        <button  class = "btn btn-primary" name = "pyinsert1" style="float:right;"><span class = "fas fa-save"></span> Update Product </button>
-        </div>
-		</form>
-		<?php 
-		if(isset($_POST['pyinsert1'])){
-		 $name         = $_POST['name'];   
-		 $price        = $_POST['price'];    
-		 $new_quantity = $_POST['new_quantity'];  
-		 $old_quantity = $_POST['old_quantity'];  
-		 $product_qty_add = $_POST['product_qty_add'];   
-		 $status       = $_POST['status']; 
-		 $total_qty = $new_quantity + $old_quantity;
-		 $total_overall = $product_qty_add + $new_quantity;
-		 $product_id = $_POST['product_id'];
-	  	 $update1 = $conn->query("UPDATE `product` SET `product_name` = '$name', `product_price` = '$price',`product_qty`='$total_qty',`product_updated_date`='$status',`product_qty_add`='$total_overall' WHERE `product_id` = '$product_id'");	
-		 if($update1) { 
-									echo '<script>
+              <h6 class="m-0 font-weight-bold" style="color:black;" >Order List
+              <b  style="color:black;float:right;"></b></h6>
+            </div>
+			
+	   
+            <div class="card-body" >
+              <div class="table-responsive" > 
+					<table width="100%" class="display" cellspacing="0">
+              
+                  <thead>
+				 
+                    <tr class="btn-info"  >
+                      <th>Name</th>
+                      <th>Contact</th>
+                      <th>Reference</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                 <tbody>		
+	   <?php			
+	   
+	  error_reporting(0);
+	  ini_set('display_errors', 0);
+					$q_e = $conn->query("SELECT * FROM `cart_order` WHERE `cart_pharmacy_id`='$u_id'") or die(mysqli_error());
+					while($f_e=$q_e->fetch_array()){
+					        $u_id_customer = $f_e['cart_order_uid'];
+							$q1 = $conn->query("SELECT * FROM `user_account` WHERE `u_id` = '$u_id_customer'") or die(msqli_error());
+							$f1 = $q1->fetch_array();
+	   ?>
+					<tr>
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f1['fname']." ".$f1['mname']." ".$f1['lname'];?></td>
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['cart_order_number']?></td>
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['cart_order_add']?></td>
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['cart_order_status']?></td>			
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['cart_order_date']?></td>	
+						<td style="text-size:8px;text-transform:capitalize;">
+							<a href="order-view.php?view_cart=<?php echo $f_e['cart_order_uid']?>&cart_order=<?php echo $f_e['cart_order_add']?>"  class="btn-info btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-eye fa-m text-white-100" style="font-size:15px;" title="Mail"></i> View Product
+							</a>	
+						</td>			
+							
+					</tr>
+						<?php
+						}		
+						if(isset($_GET['del_cart'])){
+					$del_cart = $_GET['del_cart'];
+					
+					$result=$conn->query("UPDATE product SET product_updated_date='Deleted' WHERE product_id='$del_cart'");
+					if($result){
+					echo '<script>
 									function myFunction() {
 										swal({
-										title: "Success! ",
-										text: "Your Product Successfully Update",
+										title: "Success!",
+										text: "Successfully Remove Product",
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "monitoring-update.php?product_id='.$product_id.'";
+										window.location = "monitoring.php";
 									  });}
-									
-								  </script>';			
-						}else{
-							echo '<script>
-									function myFunction() {
-									swal({
-									title: "Failed!",
-									text: "Please Try Again",
-									icon: "error",
-									button: "Ok",
-									});}
 									</script>';
-								}
-	        	}
-		?>
+				}
+				}
+								
+				?>			
+                    </tbody>
+                </table>
               </div>
             </div>
-              </div>
 			</div>
 						
             
@@ -327,7 +311,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				</div>	
 				</div>
 				<div class = "form-group" >
-						<label>Product Picture</label>
+						<label>product Picture</label>
 						<input type="file" name="file" class = "form-control" required  >
 						<input type="hidden" name="u_id" value="<?php echo $u_id?>" class = "form-control"   >
 				</div>
@@ -347,6 +331,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	  $name1 = $_POST['name'];
 	  $price = $_POST['price'];
 	  $quantity = $_POST['quantity'];
+	  $u_id = $_POST['u_id'];
 	  $u_id = $_POST['u_id'];
 	  $year = date('Ys');
 	date_default_timezone_set('Asia/Manila'); 
@@ -436,6 +421,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 								</div>
 								
 							</div>
+							
+							
+								
+							
+						
+						
 						<?php 
 						}
 						if(isset($_POST['update'])){
@@ -462,7 +453,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "monitoring.php";
+										window.location = "order.php";
 									  });}
 									
 								  </script>';			
@@ -547,7 +538,7 @@ var check = function() {
      
   $(document).ready(function() {
     $('table.display').DataTable({
-        "order": [[ 0, "asc" ]]
+        "order": [[ 4, "desc" ]]
     });
 } );       
  

@@ -103,6 +103,15 @@ table {
 		  <?php  
 							
 								$u_id=$_GET['id'];
+                                
+                                                        $userid = $u_id;
+                                                        $name = $conn->query("SELECT Concat(`lname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo 'Admin: '.$res['name'] 
+                                                        
+                                                        
+                                                        
+                                                       
 						?>
 		 </a>
         </div>
@@ -112,15 +121,23 @@ table {
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
-            <a href="home.php" class="nav-link active" >
+            <a href="home.php" class="nav-link " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Admin Dashboard
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item has-treeview">
+            <a href="adminview.php?id=<?php echo $u_id ?>" class="nav-link " >
+              <i class="nav-icon fas fa-hospital"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="monitoring.php" class="nav-link ">
+            <a href="monitoring.php?id=<?php echo $u_id ?>" class="nav-link ">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
                Product
@@ -128,7 +145,7 @@ table {
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="order.php" class="nav-link">
+            <a href="order.php?id=<?php echo $u_id ?>" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
               Order 

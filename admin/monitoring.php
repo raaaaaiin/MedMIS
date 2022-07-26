@@ -14,7 +14,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ERS</title>
+  <title>MediGRab</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -83,10 +83,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       </li>
     </ul>
   </nav>
-  <aside class="main-sidebar sidebar-light elevation-4 bg-info"  >
+   <aside class="main-sidebar sidebar-light elevation-4 bg-info"  >
     <a href="#" class="brand-link">
       
-      <span class="brand-text font-weight-dark" style="color:white;"><center>Emergency Response System</center></span>
+      <span class="brand-text font-weight-dark" style="color:white;"><center><img src="../img/medilogo.png" style="width:150px;" autofill="off"></center></span>
 	  
     </a>
     <div class="sidebar" >
@@ -96,41 +96,50 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <div class="info">
           <a href="#" class="d-block" data-toggle="modal" data-target="#editProfile" style="text-transform:capitalize;color:white;text-stroke:2px solid black;">
 		  <?php  
-							$username = htmlspecialchars($_SESSION["username"]);
-							$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
-							$f = $q->fetch_array();
-								$u_id=$f['u_id'];
-								$username1=$f['username'];
-								$name = "".$f['fname']." ".$f['mname']." ".$f['lname']."";
-									echo $name;
+							
+								$u_id=$_GET['id'];
+									 $userid = $u_id;
+                                                        $name = $conn->query("SELECT Concat(`lname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo 'Admin: '.$res['name'] 
+                                                        
 						?>
 		 </a>
         </div>
       </div>
-      <nav class="mt-2">         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" >
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
-            <a href="home.php" class="nav-link ">
+            <a href="home.php" class="nav-link " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Admin Dashboard
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item has-treeview">
+            <a href="adminview.php?id=<?php echo $u_id ?>" class="nav-link " >
+              <i class="nav-icon fas fa-hospital"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="monitoring.php" class="nav-link active">
-              <i class="nav-icon fas fa-Book"></i>
+            <a href="monitoring.php?id=<?php echo $u_id ?>" class="nav-link ">
+              <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
-               Topic
+               Product
               </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="queries.php" class="nav-link">
-              <i class="nav-icon fas fa-question"></i>
+            <a href="order.php?id=<?php echo $u_id ?>" class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
               <p>
-              Queries 
+              Order 
               </p>
             </a>
           </li>
@@ -142,7 +151,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               </p>
             </a>
           </li>
-          </ul> 
+          </ul>
+      <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
   </aside>
@@ -152,7 +162,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <div class="content-header">
        <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark printPageButton">Topics Information</h1>
+            <h1 class="m-0 text-dark printPageButton">Product Information</h1>
           </div><!-- /.col -->
            <!-- /.col -->
         </div>
@@ -160,20 +170,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 		
 		<div class="container-fluid"> 
 		
-	
 	  <div class="printPageButton">  
-	  <a  href="#"data-toggle="modal" data-target="#addProduct" class = "btn btn-info" ><span class = "fas fa-plus"></span> Add New Topic</a>
-			<!--<a href="#"   onclick="window.print()" class = "btn-info btn-m btn"  style="color:black;"> <i class="fas fa-print fa-m"></i> Print this page</a>--->
+			<!--<a href="#"   onclick="window.print()" class = "btn-info btn-m btn"  style="color:black;"> <i class="fas fa-print fa-m"></i> Print this page</a>-->
+			 
 			
 	   </div>
 	   
 					
             <div class="card shadow mb-4"  style="margin-top:10px;">
 			<div class='card-header py-3 bg-info'>
-              <h6 class="m-0 font-weight-bold" style="color:black;" >Topic List
+              <h6 class="m-0 font-weight-bold" style="color:black;" >Product List
               <b  style="color:black;float:right;"></b></h6>
             </div>
 			
+	   
             <div class="card-body" >
               <div class="table-responsive" > 
 					<table width="100%" class="display" cellspacing="0">
@@ -181,8 +191,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                   <thead>
 				 
                     <tr class="btn-info"  >
-                      <th>Title</th>
-                      <th>Date Uploaded</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Overall Quantity</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -191,60 +203,112 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	   
 	  error_reporting(0);
 	  ini_set('display_errors', 0);
-					$q_e = $conn->query("SELECT * FROM `product` ") or die(mysqli_error());
+					$q_e = $conn->query("SELECT * FROM `product` WHERE `product_user` ='$u_id'") or die(mysqli_error());
 					while($f_e=$q_e->fetch_array()){
+										
+			
 						
 	   ?>
 					<tr>
 						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_name'];?></td>
-						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_updated_date']?></td>		
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_price']?></td>
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_qty']?></td>			
+						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_qty_add']?></td>	
 						<td style="text-size:8px;text-transform:capitalize;">
-							<a href="view_subject.php?youtube=<?php echo $f_e['product_id']?>" class="btn-success btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
-								<i class="fas fa fa-eye fa-m text-white-100" style="font-size:15px;" title="Mail"></i> View Details
+							<a href="monitoring-update.php?product_id=<?php echo $f_e['product_id']?>" class="btn-info btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-eye fa-m text-white-100" style="font-size:15px;" title="Mail"></i> View Product
+							</a>	
+							
+							<?php
+
+							if($f_e['product_updated_date'] == "Active"){
+							?>
+
+							<a href="monitoring.php?deact_cart=<?php echo $f_e['product_id']?>" class="btn-secondary btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Disabled
 							</a>
-							<a href="monitoring.php?update=<?php echo $f_e['product_id']?>" class="btn-danger btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
-								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" ></i> Delete
+
+							<?php
+							}else{
+							?>
+							<a href="monitoring.php?react_cart=<?php echo $f_e['product_id']?>" class="btn-success btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Re-Activate
+							</a> 
+							
+
+							<?php
+
+							}
+							?>
+							
+							
+							<a href="monitoring.php?del_cart=<?php echo $f_e['product_id']?>" class="btn-danger btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Delete
 							</a>
 						</td>			
 							
 					</tr>
 						<?php
-						}	
-							
-						if(isset($_GET['update'])){
-								$update=$_GET['update'];
-								$result=$conn->query("DELETE FROM `product` WHERE `product_id`	='$update'");
-								if($result){
-						date_default_timezone_set('Asia/Manila'); 
-						$date23 = date('m/d/Y h:i:s a', time());	
-								echo '	
-									<script>
-									  function myFunction() {
+						}		
+
+						//Delete 
+						if(isset($_GET['del_cart'])){
+					$del_cart = $_GET['del_cart'];
+					
+					$result=$conn->query("DELETE FROM product WHERE product_id='$del_cart'");
+					if($result){
+					echo '<script>
+									function myFunction() {
 										swal({
 										title: "Success!",
-										text: "Successful Deleted",
+										text: "Successfully Remove Product",
 									    icon: "success",
 										type: "success"
 										}).then(function() {
 										window.location = "monitoring.php";
 									  });}
-									</script>
-									';
-									
-								}else{
-									echo '	
-									<script>
+									</script>';}
+				}
+				//Disabled
+				if(isset($_GET['react_cart'])){
+					$del_cart = $_GET['react_cart'];
+					
+					$result=$conn->query("UPDATE product SET product_updated_date='Active' WHERE product_id='$del_cart'");
+					if($result){
+					echo '<script>
 									function myFunction() {
-									swal({
-									title: "Failed!",
-									text: "Please Try Again",
-									icon: "error",
-									button: "Ok",
-									});}
-									</script>
-								';
-								}
-								}	
+										swal({
+										title: "Success!",
+										text: "Successfully Re-Activated Product",
+									    icon: "success",
+										type: "success"
+										}).then(function() {
+										window.location = "monitoring.php";
+									  });}
+									</script>';}
+				}
+				//Enable
+				if(isset($_GET['deact_cart'])){
+					$del_cart = $_GET['deact_cart'];
+					
+					$result=$conn->query("UPDATE product SET product_updated_date='Deleted' WHERE product_id='$del_cart'");
+					if($result){
+					echo '<script>
+									function myFunction() {
+										swal({
+										title: "Success!",
+										text: "Successfully Remove Product",
+									    icon: "success",
+										type: "success"
+										}).then(function() {
+										window.location = "monitoring.php";
+									  });}
+									</script>';}
+				}
+				
+				
+				
+								
 				?>			
                     </tbody>
                 </table>
@@ -288,7 +352,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Lesson</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -298,52 +362,62 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				 <div class  = "modal-body">
 					<div class="form-group row">
                   <div class="col-sm-12 mb-3 mb-sm-0">
-						<label>Title</label>
-                    <input type="text" class="form-control"   style="text-transform:capitalize;"required = "required"name = "title" >
-                    <input type="hidden" class="form-control"   style="text-transform:capitalize;"required = "required"name = "name_user" value="<?php echo $u_id?>">
+						<label>Name</label>
+                    <input type="text" class="form-control"   style="text-transform:capitalize;"required = "required"name = "name" >
                   </div>
                   </div>
+				<div class = "form-group row" >
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+						<label>Price</label>
+						<input type="text" name="price" class = "form-control" required  style="text-transform:capitalize;">
+				</div>
+				<div class="col-sm-6 mb-3 mb-sm-0">
+						<label>Quantity  </label>
+						<input type="text" name="quantity" class = "form-control" required >
+				</div>	
+				</div>
 				<div class = "form-group" >
-						<label>Topic Image  </label>
-						<input type="file" name="file" class = "form-control" required >
+						<label>Product Picture</label>
+						<input type="file" name="file" class = "form-control" required  >
+						<input type="hidden" name="u_id" value="<?php echo $u_id?>" class = "form-control"   >
 				</div>
 				</div>
 			</div>
         <div class="modal-footer">
 								<button  class = "btn btn-danger" name = "add1" style="float:right;" data-dismiss = "modal" aria-label = "Close">
 								<span class = "fas fa-times"></span> Close</button>
-          <button  class = "btn btn-primary" name = "pyinsert" style="float:right;"><span class = "fas fa-save"></span> Save Lesson </button>
+          <button  class = "btn btn-primary" name = "pyinsert" style="float:right;"><span class = "fas fa-save"></span> Save Product </button>
         </div>
-							</form>
+		</form>
       </div>
     </div>
   </div> 
   <?php
   if(isset($_POST['pyinsert'])){
-	$title = $_POST['title'];
-	$name_user = $_POST['name_user'];
-	$year = date('Ys');
-	$date = date("F d,Y");
+	  $name1 = $_POST['name'];
+	  $price = $_POST['price'];
+	  $quantity = $_POST['quantity'];
+	  $u_id = $_POST['u_id'];
+	  $year = date('Ys');
 	date_default_timezone_set('Asia/Manila'); 
-	$rtransdate = date('m/d/Y h:i:s a', time());
 	$cur_date = date('d').date('m').date('y');
-	$brand = "TPC";
+	$brand = "VID";
 	$invoice = $brand.$cur_date;
 	$customer_id = rand(00000 , 99999);
-	$uRefNo = $invoice.'-LESSON-'.$customer_id;
+	$uRefNo = $invoice.'-LESSON--'.$customer_id;
      
     $tmp=$_FILES["file"]["tmp_name"];
     $extension = explode("/", $_FILES["file"]["type"]);
     $name=$uRefNo.".".$extension[1];
      
-    move_uploaded_file($tmp, "../student/img/" . $uRefNo.".".$extension[1]);
-	  $sql123 ="INSERT INTO product VALUES(null,'$name_user','$name','$title','$date')";
+    move_uploaded_file($tmp, "img/" . $uRefNo.".".$extension[1]);
+	  $sql123 ="INSERT INTO product VALUES(null,'$u_id','$name','$name1','$quantity','$price','$quantity','$u_id','Active')";		
 					if (mysqli_query($conn, $sql123)) {
 									echo '<script>
 									function myFunction() {
 										swal({
 										title: "Success! ",
-										text: "Successfully Added New Lesson",
+										text: "Successfully Added New Product",
 									    icon: "success",
 										type: "success"
 										}).then(function() {
@@ -383,21 +457,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                <form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype = "multipart/form-data"autocomplete="off" >
 							<div class  = "modal-body">
 								<div class = "form-group" >
-									<label>First Name</label>
-										<input type="text" value="<?php echo $f_e2['fname'];?>" name="fname" class = "form-control" style="text-transform:capitalize;">
-										<input type="hidden" value="<?php echo $u_id?>" name="id" class = "form-control" style="text-transform:capitalize;">
-									</div>
-								<div class = "form-group" >
-									<label>Middle Name</label>
-									<input type="text" value="<?php echo $f_e2['mname'];?>" name="mname" class = "form-control" style="text-transform:capitalize;">
+									<label>Company Name</label>
+									<input type="text" value="<?php echo $f_e2['lname'];?>" name="lname" class = "form-control" style="text-transform:capitalize;">
 								</div>
 								<div class = "form-group" >
-									<label>Last Name</label>
-									<input type="text" value="<?php echo $f_e2['lname'];?>" name="lname" class = "form-control" style="text-transform:capitalize;">
+									<label>Barangay</label>
+										<input type="text" value="<?php echo $f_e2['fname'];?>" name="fname" class = "form-control" style="text-transform:capitalize;">
+										<input type="hidden" value="<?php echo $u_id?>" name="id" class = "form-control" style="text-transform:capitalize;">
 								</div>
 								<div class = "form-group" >
 									<label>Username</label>
 									<input type="text" value="<?php echo $f_e2['username'];?>" name="username" class = "form-control" >
+								</div>	
+								<div class = "form-group" >
+									<label>Email</label>
+									<input type="email" value="<?php echo $f_e2['email'];?>" name="email" class = "form-control" >
 								</div>	
 								<div class = "form-group" >
 									<label>Password</label>
@@ -411,19 +485,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 								</div>
 								
 							</div>
-							
-							
-								
-							
-						
-						
 						<?php 
 						}
 						if(isset($_POST['update'])){
 						$id 		= $_POST['id'];
 						$fname 		= $_POST['fname'];
-						$mname		= $_POST['mname'];
 						$lname		= $_POST['lname'];	
+						$email	    = $_POST['email'];
 						$username	= $_POST['username'];
 						$password	= $_POST['password2'];
 						if($password!=null){
@@ -432,7 +500,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 						}else{
 							$password1 = $_POST['password1'];
 						}
-						$update = $conn->query("UPDATE `user_account` SET `username` = '$username', `fname` = '$fname',`mname` = '$mname',`lname`='$lname',`password`='$password1'WHERE `u_id` = '$id'");	
+						$update = $conn->query("UPDATE `user_account` SET `username` = '$username', `fname` = '$fname',`lname`='$lname',`email`='$email',`password`='$password1'WHERE `u_id` = '$id'");	
 						
 						if ($update) { 
 									echo '<script>
@@ -443,7 +511,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "add_lesson.php";
+										window.location = "monitoring.php";
 									  });}
 									
 								  </script>';			
@@ -469,7 +537,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       </div>
     </div>
   </div>
-  
   
 <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
