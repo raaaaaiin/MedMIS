@@ -51,6 +51,30 @@ i,p{
 	color:white;
 }
 </style>
+<style>
+                                        .cyan {
+    border-top: 3px solid #14cdc8;
+}
+                                        table, tr td {
+}
+tbody ,ul{
+    max-height:500px;
+    display: block;
+    height: auto;
+    overflow: auto;
+}
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+thead {
+    width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+table {
+    width: 400px;
+}
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" onload="myFunction()">
 <div class="wrapper">
@@ -316,7 +340,7 @@ i,p{
                                                         <td><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></td> 
 
 
-                                                         <td><?php 
+                                                         <td><a href="adminview.php?id=<?php echo $key['cart_pharmacy_id'] ?>"><?php 
                                                         $userid = $key['cart_pharmacy_id'];
                                                         $name = $conn->query("SELECT Concat(`lname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
 							                            $res = $name->fetch_array();
@@ -324,7 +348,7 @@ i,p{
                                                         
                                                         
                                                         
-                                                        ?></td> 
+                                                        ?></a></td> 
                                                         <td><?php 
                                                         $userid = $key['cart_order_uid'];
                                                         $name = $conn->query("SELECT Concat(`lname`,' ',`fname`,' ',`mname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
