@@ -51,6 +51,30 @@ i,p{
 	color:white;
 }
 </style>
+<style>
+                                        .cyan {
+    border-top: 3px solid #14cdc8;
+}
+                                        table, tr td {
+}
+tbody ,ul{
+    max-height:500px;
+    display: block;
+    height: auto;
+    overflow: auto;
+}
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+thead {
+    width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+table {
+    width: 400px;
+}
+                                        </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" onload="myFunction()">
 <div class="wrapper">
@@ -194,13 +218,28 @@ i,p{
 
 
                         <div class="row">
-
+                             <?php  
+							$username = htmlspecialchars($_SESSION["username"]);
+							$q = $conn->query("SELECT COUNT(*) as total_order FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id'") or die(msqli_error());
+							$pharma = $q->fetch_array();
+							
+								$totalcount=$pharma['total_order'];
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `product` WHERE `product_user` = '$u_id' AND product_updated_date = 'Active'") or die(msqli_error());
+                             $pharma = $q->fetch_array();
+                             $activeProd=$pharma['active_prod'];
+                             $q = $conn->query("SELECT COUNT(*) as active_prod FROM `product` WHERE `product_user` = '$u_id' AND product_updated_date != 'Active'") or die(msqli_error());
+                             $pharma = $q->fetch_array();
+                             $deactiveProd=$pharma['active_prod'];
+                             $q = $conn->query("SELECT cashin_total as balance FROM `cashin` WHERE `cashin_user_id` = '$u_id'") or die(msqli_error());
+                             $pharma = $q->fetch_array();
+                             $balance=$pharma['balance'];
+						    ?>  
                             <div class="col-lg-3 col-6">
                                 <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
-                                    <div class="card-body" style="height:150px;max-height:150px!important;min-height:150px!important">
+                                    <div class="card-body cyan cy" style="height:150px;max-height:150px!important;min-height:150px!important">
                                         <h5 class="text-muted">Total Order</h5>
                                         <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">34</h1>
+                                            <h1 class="mb-1"><?php echo $totalcount ?></h1>
                                         </div>
                                         <div class="metric-label d-inline-block float-right text-success font-weight-bold">
                                             <span><!-- <i class="fa fa-fw fa-arrow-up"></i> Font Awesome fontawesome.com --></span>
@@ -209,12 +248,14 @@ i,p{
                                     <div id="sparkline-revenue"></div>
                                 </div>
                             </div>
+
+
                             <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
                                 <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
-                                    <div class="card-body">
+                                    <div class="card-body cyan">
                                         <h5 class="text-muted">Active Medicine</h5>
                                         <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">3</h1>
+                                            <h1 class="mb-1"><?php echo $activeProd ?></h1>
                                         </div>
                                         <div class="metric-label d-inline-block float-right text-success font-weight-bold">
                                             <span><!-- <i class="fa fa-fw fa-arrow-up"></i> Font Awesome fontawesome.com --></span>
@@ -223,24 +264,28 @@ i,p{
                                     <div id="sparkline-revenue2"></div>
                                 </div>
                             </div>
+
+
                             <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
                                 <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
-                                    <div class="card-body">
+                                    <div class="card-body cyan">
                                         <h5 class="text-muted">Disabled Medicine</h5>
                                         <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">2</h1>
+                                            <h1 class="mb-1"><?php echo $deactiveProd ?></h1>
                                         </div>
                                         
                                     </div>
                                     <div id="sparkline-revenue3"></div>
                                 </div>
                             </div>
+
+
                             <div class="col-lg-3 col-6" style="height:150px;max-height:150px!important;min-height:150px!important">
                                 <div class="card" style="height:150px;max-height:150px!important;min-height:150px!important">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Profit</h5>
+                                    <div class="card-body cyan">
+                                        <h5 class="text-muted">Balance</h5>
                                         <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">353</h1>
+                                            <h1 class="mb-1"><?php echo $balance ?> PHP</h1>
                                         </div>
                                         
                                     </div>
@@ -250,62 +295,75 @@ i,p{
                         <div class="col-lg-12">
                                 <div class="card">
                                     <h5 class="card-header">Complete transaction</h5>
-                                    <div class="card-body p-0">
+                                    <div class="card-body cyan p-0">
                                         <div class="table-responsive">
+                                        
                                             <table class="table">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
                                                         <th class="border-0">No</th>
-                                                        <th class="border-0">Image</th>
-                                                        <th class="border-0">Book Name</th>
-                                                        <th class="border-0">Author</th>
-                                                        <th class="border-0">Borrow Date</th>
-                                                        
-                                                        <th class="border-0">Return Date</th>
-                                                        <th class="border-0">Borrower</th>
-                                                        <th class="border-0">Status</th>
+                                                        <th class="border-0">Cart ID</th>
+                                                        <th class="border-0">Customer Name</th>
+                                                        <th class="border-0">Address</th>
+                                                        <th class="border-0">Rider Name</th>
+                                                        <th class="border-0">Delivery type</th>
+                                                        <th class="border-0">Payment Type</th>
+                                                        <th class="border-0">Date</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                                                                    <tr>
-                                                        <td>68</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="https://www.elibsti.com/uploads/LRFT1jS00jFe5Yfuwv7zNzLSaJKHC2HQ20GLmvoB.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Serial Innovators</td>
-                                                        <td>	Mark Myers</td>
-                                                        <td>2022-06-03</td>
+                                                <tbody style="max-height: 500px;
+  overflow-y: scroll;";>
+                                                     <tr>
+
+
+                                                     <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id' and cart_order_status = 'Done' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     </tr>
+                                                        <td><?php echo $i ?></td>
+                                                        <td><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></td> 
+                                                        <td><?php 
+                                                        $userid = $key['cart_order_uid'];
+                                                        $name = $conn->query("SELECT Concat(`lname`,' ',`fname`,' ',`mname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo $res['name'] 
                                                         
-                                                        <td></td>
-                                                        <td>Administrator</td>
-                                                        <td><span class="badge-dot badge-brand mr-1"></span>Issued</td>
-                                                    </tr>
-                                                                                                        <tr>
-                                                        <td>67</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="https://www.elibsti.com/uploads/LRFT1jS00jFe5Yfuwv7zNzLSaJKHC2HQ20GLmvoB.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>History of Europe</td>
-                                                        <td>	Mark Myers</td>
-                                                        <td>2022-05-29</td>
                                                         
-                                                        <td>2022-06-03</td>
-                                                        <td>Administrator</td>
-                                                        <td><span class="badge-dot badge-brand mr-1"></span>Returned</td>
-                                                    </tr>
-                                                                                                        <tr>
-                                                        <td>66</td>
-                                                        <td>
-                                                            <div class="m-r-10"><img src="https://www.elibsti.com/uploads/LRFT1jS00jFe5Yfuwv7zNzLSaJKHC2HQ20GLmvoB.jpg" alt="user" class="rounded" width="45"></div>
-                                                        </td>
-                                                        <td>Bionic</td>
-                                                        <td>	Mark Myers</td>
-                                                        <td>2022-06-02</td>
                                                         
-                                                        <td>2022-06-03</td>
-                                                        <td>Administrator</td>
-                                                        <td><span class="badge-dot badge-brand mr-1"></span>Returned</td>
-                                                    </tr>
+                                                        ?></td> 
+                                                        <td><?php echo $key['cart_order_name'] ?></td>
+                                                        
+                                                        <td><?php 
+                                                        $userid = $key['cart_order_driver'];
+                                                        $name = $conn->query("SELECT Concat(`lname`,' ',`fname`,' ',`mname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo $res['name'] 
+                                                        
+                                                        
+                                                        
+                                                        ?></td>
+                                                        <td><?php echo $key['cart_order_delivery'] ?></td> 
+                                                        <td><?php echo $key['cart_order_payment'] ?></td>
+                                                        <td><?php echo $key['cart_order_date'] ?></td> 
+                                                     <tr>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+
+
+
+                                                       
+                                                        
+                                                    
+                                                                                                       
+                                                       
                                                                                                            
                                                     
                                                     
@@ -315,7 +373,6 @@ i,p{
                                         </div>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn-primary-link">Next</a>
                                     </div>
                                 </div>
                             </div>
@@ -326,20 +383,33 @@ i,p{
                                 <!-- ============================================================== -->
                                                                 <div class="card">
                                     <h5 class="card-header">Pending</h5>
-                                    <div class="card-body p-0">
-                                        <ul class="social-sales list-group list-group-flush">
-                                                                                    <li class="list-group-item social-sales-content"><span class="social-sales-name">Serial Innovators</span><span style="color: #c6c6c6;" class="float-right text-dark">1 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                    <div class="card-body cyan p-0">
+                                        <ul class="social-sales list-group list-group-flush" style="
+    min-height:200px;">
+
+                                        <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id' and cart_order_status = 'Pending' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     <li class="list-group-item social-sales-content"><span class="social-sales-name"><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></span><span style="color: #c6c6c6;" class="float-right text-dark"><?php echo $key['cart_order_name'] . ' ' .$key['cart_order_date'] ?></span>
                                             </li>
-                                                                                        <li class="list-group-item social-sales-content"><span class="social-sales-name">History of Europe</span><span style="color: #c6c6c6;" class="float-right text-dark">1 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                        <li class="list-group-item social-sales-content"><span class="social-sales-name">Bionic</span><span style="color: #c6c6c6;" class="float-right text-dark">1 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                        
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+
+
+                                            
+                                                                                                        
                                             
                                         </ul>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn-primary-link">Next</a>
                                     </div>
                                 </div>
                                 <!-- ============================================================== -->
@@ -352,38 +422,24 @@ i,p{
                                 <!-- ============================================================== -->
                                 <div class="card">
                                     <h5 class="card-header">Confirm</h5>
-                                    <div class="card-body p-0">
-                                    <ul class="country-sales list-group list-group-flush">
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">940 History of Europe</span><span style="color: #c6c6c6;" class="float-right text-dark">401 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                    <div class="card-body cyan p-0">
+                                    <ul class="country-sales list-group list-group-flush" style="
+    min-height:200px;">
+                                                                                 <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id' and cart_order_status = 'Confirm' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     <li class="list-group-item social-sales-content"><span class="social-sales-name"><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></span><span style="color: #c6c6c6;" class="float-right text-dark"><?php echo $key['cart_order_name']. ' ' .$key['cart_order_date'] ?></span>
                                             </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">010 Bibliographies</span><span style="color: #c6c6c6;" class="float-right text-dark">259 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">Unassigned</span><span style="color: #c6c6c6;" class="float-right text-dark">219 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">Programming</span><span style="color: #c6c6c6;" class="float-right text-dark">52 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">020 Library &amp; information sciences</span><span style="color: #c6c6c6;" class="float-right text-dark">42 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">120 Epistemology </span><span style="color: #c6c6c6;" class="float-right text-dark">7 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">690 Building &amp; construction</span><span style="color: #c6c6c6;" class="float-right text-dark">7 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">960 History of Africa</span><span style="color: #c6c6c6;" class="float-right text-dark">5 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">110 Metaphysics</span><span style="color: #c6c6c6;" class="float-right text-dark">5 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="" class="">970 History of North America</span><span style="color: #c6c6c6;" class="float-right text-dark">4 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
                                                                                    
                                            
                                         </ul>
@@ -391,7 +447,6 @@ i,p{
                                         </div>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn-primary-link">Next</a>
                                     </div>
                                 </div>
                             </div>
@@ -404,41 +459,30 @@ i,p{
                             <div class="col-lg-4">
                                                             <div class="card">
                                     <h5 class="card-header">Ready to Dispatch</h5>
-                                    <div class="card-body p-0">
-                                        <ul class="country-sales list-group list-group-flush">
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Things We Lost in the Fire</span><span style="color: #c6c6c6;" class="float-right text-dark">188 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
+                                    <div class="card-body cyan p-0">
+                                        <ul class="country-sales list-group list-group-flush" style="
+    min-height:200px;">
+                                                                                   <?php
+                                                     $transact = $conn->query("SELECT * FROM `cart_order` WHERE `cart_pharmacy_id` = '$u_id' and cart_order_status = 'ReadyDispatch' order by cart_order_id desc") or die(msqli_error());
+                                                     $completetransact = mysqli_fetch_all ($transact, MYSQLI_ASSOC);
+                                                     $i = 0;
+                                                     foreach ($completetransact as $key) {
+                                                     $i++;
+                                                     ?>
+
+                                                     <li class="list-group-item social-sales-content"><span class="social-sales-name"><a href="order-view.php?cart_order=<?php echo $key['cart_order_add'] ?>"><?php echo $key['cart_order_add'] ?></a></span><span style="color: #c6c6c6;" class="float-right text-dark"><?php echo $key['cart_order_name'] . ' ' .$key['cart_order_date'] ?></span>
                                             </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Kwik kik</span><span style="color: #c6c6c6;" class="float-right text-dark">93 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Incredible Change-Bots Two Point Something So...</span><span style="color: #c6c6c6;" class="float-right text-dark">66 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">yu</span><span style="color: #c6c6c6;" class="float-right text-dark">30 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">KYUKYU</span><span style="color: #c6c6c6;" class="float-right text-dark">25 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Heart of Europe</span><span style="color: #c6c6c6;" class="float-right text-dark">22 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Johnny Boo</span><span style="color: #c6c6c6;" class="float-right text-dark">14 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">Century</span><span style="color: #c6c6c6;" class="float-right text-dark">12 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
-                                                                                 <li class="country-sales-content list-group-item"><span class="mr-2"> </span>
-                                                <span alt="App\Models\SubBook::get_directuniquebook_name($views->unique_id)" class="">From Peoples Into Nations</span><span style="color: #c6c6c6;" class="float-right text-dark">10 <i style="color: #c6c6c6;" class="fa fa-eye" aria-hidden="true"></i></span>
-                                            </li>
+
+                                                     <?php
+                                                       }
+
+                                                     ?>
+                                                           
                                                                                    
                                            
                                         </ul>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn-primary-link">Next</a>
                                     </div>
                                 </div>
                             </div>
