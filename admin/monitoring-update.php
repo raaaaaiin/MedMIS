@@ -95,13 +95,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         </div>
         <div class="info">
           <a href="#" class="d-block" data-toggle="modal" data-target="#editProfile" style="text-transform:capitalize;color:white;text-stroke:2px solid black;">
-		  <?php  
-							$username = htmlspecialchars($_SESSION["username"]);
-							$q = $conn->query("SELECT * FROM `user_account` WHERE `username` = '$username'") or die(msqli_error());
-							$f = $q->fetch_array();
-								$u_id=$f['u_id'];
-								$name = "".$f['lname'];
-									echo $name;
+		   <?php  
+							
+								$u_id=$_GET['id'];
+									 $userid = $u_id;
+                                                        $name = $conn->query("SELECT Concat(`lname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
+							                            $res = $name->fetch_array();
+                                                        echo 'Admin: '.$res['name'] 
+                                                        
 						?>
 		 </a>
         </div>
@@ -114,12 +115,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <a href="home.php" class="nav-link " >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
+                Admin Dashboard
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item has-treeview">
+            <a href="adminview.php?id=<?php echo $u_id ?>" class="nav-link " >
+              <i class="nav-icon fas fa-hospital"></i>
+              <p>
                 Dashboard
               </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="monitoring.php" class="nav-link active">
+            <a href="monitoring.php?id=<?php echo $u_id ?>" class="nav-link ">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
                Product
@@ -127,7 +136,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="order.php" class="nav-link">
+            <a href="order.php?id=<?php echo $u_id ?>" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
               Order 

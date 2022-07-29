@@ -215,7 +215,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_qty']?></td>			
 						<td style="text-size:8px;text-transform:capitalize;"><?php echo $f_e['product_qty_add']?></td>	
 						<td style="text-size:8px;text-transform:capitalize;">
-							<a href="monitoring-update.php?product_id=<?php echo $f_e['product_id']?>" class="btn-info btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+							<a href="monitoring-update.php?product_id=<?php echo $f_e['product_id']?>&id=<?php echo $userid?>" class="btn-info btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
 								<i class="fas fa fa-eye fa-m text-white-100" style="font-size:15px;" title="Mail"></i> View Product
 							</a>	
 							
@@ -224,14 +224,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 							if($f_e['product_updated_date'] == "Active"){
 							?>
 
-							<a href="monitoring.php?deact_cart=<?php echo $f_e['product_id']?>" class="btn-secondary btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+							<a href="monitoring.php?deact_cart=<?php echo $f_e['product_id']?>&id=<?php echo $userid?>" class="btn-secondary btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
 								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Disabled
 							</a>
 
 							<?php
 							}else{
 							?>
-							<a href="monitoring.php?react_cart=<?php echo $f_e['product_id']?>" class="btn-success btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+							<a href="monitoring.php?react_cart=<?php echo $f_e['product_id']?>&id=<?php echo $userid?>" class="btn-success btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
 								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Re-Activate
 							</a> 
 							
@@ -242,7 +242,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 							?>
 							
 							
-							<a href="monitoring.php?del_cart=<?php echo $f_e['product_id']?>" class="btn-danger btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
+							<a href="monitoring.php?del_cart=<?php echo $f_e['product_id']?>&id=<?php echo $userid?>" class="btn-danger btn-m btn"  style="text-transform:capitalize;color:white;text-stroke:2px solid black;" > 
 								<i class="fas fa fa-trash fa-m text-white-100" style="font-size:15px;" title="Mail"></i> Delete
 							</a>
 						</td>			
@@ -265,7 +265,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "monitoring.php";
+										window.location = "monitoring.php?id='.$userid.'";
 									  });}
 									</script>';}
 				}
@@ -283,7 +283,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "monitoring.php";
+										window.location = "monitoring.php?id='.$userid.'";
 									  });}
 									</script>';}
 				}
@@ -301,7 +301,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 									    icon: "success",
 										type: "success"
 										}).then(function() {
-										window.location = "monitoring.php";
+										window.location = "monitoring.php?id='.$userid.'";
 									  });}
 									</script>';}
 				}
