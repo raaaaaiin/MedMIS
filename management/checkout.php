@@ -21,7 +21,7 @@
       <!-- Core theme CSS (includes Bootstrap)-->
       <link href="css/styles.css" rel="stylesheet" />
    </head>
-   <body>
+   <body style="background-color:#f0f0f0">
       <!-- Navigation-->
       <nav class="navbar navbar-expand-lg navbar-light bg-info">
          <div class="container px-4 px-lg-5">
@@ -64,7 +64,7 @@
       </nav>
       <!-- Header-->
       <!-- Section-->
-      <section class="py-5">
+      <section class="py-3 h-100" style="background-color:#f0f0f0">
          <a href="checkout.php" style="float:right;margin-right:20px;text-decoration:none;">
             <h5 style="float:right;">
                <i class="bi bi-basket-fill"></i> 
@@ -92,20 +92,25 @@
          </a>  
          <br>
          <form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype = "multipart/form-data"autocomplete="off" >
-            <div class="row " style="justify-content: center; margin:0px!important;width:95%;margin-left:10px!important;">
+            <div class="row w-100" style="justify-content: center; margin:0px!important;">
            
-            <div class="form-group col-sm-12 col-md-8" style="overflow:hidden">
+            <div class="form-group mb-4 col-sm-12 col-md-8" style="overflow:hidden">
                <div class="form-group row h-100" style="    align-content: space-between;">
-                  <div class="col-sm-5 mb-3 mb-sm-0 col-md-12">
-                     <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4">
+                  <div class="col-sm-12 mb-sm-0 col-md-12">
+                     <div class="row m-0 row-cols-2 p-3 row-cols-md-3 row-cols-xl-4" style="border-radius: 25px;
+    background: #ffffff;
+    padding: 20px;
+    width: 100%;
+    height: 100%;">
                         <table class="table">
                            <thead>
                               <tr>
-                                 <th scope="col">Product</th>
-                                 <th scope="col">Quantity</th>
-                                 <th scope="col">Price</th>
-                                 <th scope="col">Total</th>
-                                 <th scope="col">Action</th>
+                                 <th width="17%" scope="col">Product</th>
+                                 <th width="17%" scope="col">Name</th>
+                                 <th width="17%" scope="col">Quantity</th>
+                                 <th width="17%" scope="col">Price</th>
+                                 <th width="17%" scope="col">Total</th>
+                                 <th width="12%" scope="col">Action</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -123,9 +128,12 @@
                                  ?>
                               <tr>
                                  <td><img src="../student/img/<?php echo $f1['product_img']?>" style="width:50px;height:50px;" /></td>
+                                 <td><?php echo $f1['product_name']?></td>
                                  <td><?php echo $f_e['cart_qty']?> Qty</td>
-                                 <td><?php echo $f1['product_price']?> Php</td>
-                                 <td><?php echo $f1['product_price'] * $f_e['cart_qty']; ?> Php</td>
+
+                                 
+                                 <td>₱ <?php echo $f1['product_price']?></td>
+                                 <td>₱ <?php echo $f1['product_price'] * $f_e['cart_qty']; ?></td>
                                  <td><a class="btn btn-outline-light bg-danger mt-auto" href="checkout.php?del_cart=<?php echo $f_e['cart_id']?>"><i class="bi bi-bag-x"></i> </a></td>
                               </tr>
                               <?php 
@@ -133,16 +141,28 @@
                                  }
                                  ?>
                            </tbody>
-                           <thead>
-                              <tr>
-                                 <th scope="col">Delivery Fee</th>
-                                 <th scope="col">+ 59 Php</th>
-                                 <th scope="col"></th>
-                                 <th scope="col">Final Total</th>
-                                 <th scope="col" id="changediscount"><?php echo $total_price_all + 59?> Php</th>
-                              </tr>
-                           </thead>
+                          
                         </table>
+                         <div class="d-sm-none col-sm-12 mb-2 mb-sm-0 w-100">
+                           <table style="width:100%"> <thead>
+
+                             <tr>
+                                 <th style="border:0" scope="col">Sub Total Fee</th>
+                                 <th style="border:0;float:right" scope="col">₱ <?php echo $total_price_all?></th>
+                              </tr>
+                              <tr>
+                                 <th style="border:0" scope="col">SC/PWD Discount</th>
+                                 <th style="border:0;float:right" scope="col">₱ 0</th>
+                              </tr>
+                              <tr>
+                                 <th style="border:0" scope="col">Delivery Fee</th>
+                                 <th style="border:0;float:right" scope="col">₱ 59</th>
+                              </tr>
+                               
+                           </thead>
+                           </table>
+
+                        </div>
                         <?php 
                            if(isset($_GET['del_cart'])){
                            $del_cart = $_GET['del_cart'];
@@ -164,27 +184,25 @@
                            ?>		
                      </div>
                   </div>
-                  <div class="col-sm-5 mb-3 mb-sm-0 col-md-12">
-                     <div class="form-group">
-                        <div class="col-sm-12 mb-sm-0">
-                           <br>
-                           <p><small style="color:red">*Review your items before placing your order. Once you check out, you can no longer cancel</small></p>
-                          
-                        </div>
-                     </div>
-                     <input type="hidden" value="<?php echo $cart_pharmacy?>" name="cart_pharmacy">
+                   <input type="hidden" value="<?php echo $cart_pharmacy?>" name="cart_pharmacy">
 
                      </div>
                      </div>
-                     </div>
-                      <div class="form-group col-md-2 " style="border-style: solid;margin-left:0px;padding-right:0px !important;border-width: 1px;border-top: 0;border-right: 0;border-bottom: 0;border-color: #e5e5e5;" >
-               <div class="col-sm-12 mb-3 mb-sm-0" >
+                     <div class="form-group col-sm-3" style="overflow:hidden;margin-bottom:150px">
+               <div class="form-group row h-100" style="    align-content: space-between;">
+                  <div class="col-sm-12 mb-sm-0 col-md-12">
+                     <div class="row m-0 " style="border-radius: 25px;
+    background: #ffffff;
+    padding: 20px;
+    width: 100%;
+    height: 100%;">
+                          <div class="col-sm-12 mb-3 mb-sm-0" >
                   <label><b>Complete your Address Here</b></label>
                   <input type="text" class="form-control" style=" text-transform:capitalize;width:100%;"required = "required" name = "address" value="<?php echo $f['brgy']." ".$f['city']?>">
                </div>
-               <div class="col-sm-12 mb-sm-0"  >
+ <div class="col-sm-12 mb-sm-0"  >
                   <label><b>Your Contact Number</b></label>
-                  <input type="text" class="form-control"	style="text-transform:capitalize;width:100%;" name = "number" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" maxlength="11" minlength="11" >
+                  <input type="text" class="form-control"   style="text-transform:capitalize;width:100%;" name = "number" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" maxlength="11" minlength="11" >
                </div>
                <div class="col-sm-12 mb-sm-0"  >
                   <label><b> Receiving Option</b></label>
@@ -223,17 +241,70 @@
                </div>
                <div class="col-sm-12 "  >
                   <label><b>Prescription</b></label>
-                  <input type="file" class="form-control"	style="text-transform:capitalize;width:100%;" name = "file1"  id="file1">
+                  <input type="file" class="form-control"   style="text-transform:capitalize;width:100%;" name = "file1"  id="file1">
                </div>
                <div class="col-sm-12 "  >
                   <label><b>Discount ID (Senior/PWD)</b></label>
-                  <input type="file" class="form-control"	style="text-transform:capitalize;width:100%;" name = "file"  id="file2">
+                  <input type="file" class="form-control"   style="text-transform:capitalize;width:100%;" name = "file"  id="file2">
                </div> 
-                   <button class="col-sm-12 mt-2 btn bg-success" style="float:right;color:white;" type="submit" name="check_out">
+                <div class="d-none d-sm-block col-sm-12 mb-3 mt-4 mb-sm-0">
+                           <table style="width:100%"> <thead>
+
+                             <tr>
+                                 <th style="border:0" scope="col">Sub Total Fee</th>
+                                 <th style="border:0" scope="col">₱ <?php echo $total_price_all?></th>
+                              </tr>
+                              <tr>
+                                 <th style="border:0" scope="col">SC/PWD Discount</th>
+                                 <th style="border:0" scope="col">₱ 0</th>
+                              </tr>
+                              <tr>
+                                 <th style="border:0" scope="col">Delivery Fee</th>
+                                 <th style="border:0" scope="col">₱ 59</th>
+                              </tr>
+                               <tr >
+                                 <th  scope="col">Final Total</th>
+                                 <th  scope="col" id="changediscount">₱ <?php echo $total_price_all + 59?></th>
+                              </tr>
+                           </thead>
+                           </table>
+                        </div>
+                        <hr>
+                   <button class="col-12 mt-2 btn bg-success d-none d-md-block" style="float:right;color:white;" type="submit" name="check_out">
                            <i class="bi bi-basket-fill"></i> Check Out
                            </button>
+                      
                
             </div>
+
+                     </div>
+                     </div>
+
+                  </div>
+
+            <div class="d-sm-none col-12 bg-light"  style="
+    height: 120px; 
+    position: fixed; 
+    bottom:0%;
+    width:100%;
+    left:-1; 
+    background-color: #393838; 
+    opacity: 1;
+">
+                   <table class="mt-2" style="margin-left:20px;width:90%"> <thead>
+
+                           
+                               <tr >
+                                 <th  scope="col">Final Total</th>
+                                 <th  scope="col" id="changediscount" style="float:right;">₱ <?php echo $total_price_all + 59?></th>
+                              </tr>
+                           </thead>
+                           </table>
+                   <button class="mt-2 btn bg-success" style="border-radius: 100px;width:100%;color:white; height:70" type="submit" name="check_out">
+                           <i class="bi bi-basket-fill"></i> Check Out
+                           </button>
+               </div> 
+
          </form>
          <?php
             if(isset($_POST['check_out'])){
@@ -359,7 +430,13 @@
       <script>
 
         document.getElementById('file1').onchange = function() {
-      alert("fire");
+         const reg = /[a-zA-Z]*/
+const value = document.getElementById('changediscount').innerHTML;
+const discountedValue = (parseInt(value.replace(reg, "")) - 59) * 0.80;
+alert(discountedValue)
+      document.getElementById('changediscount').innerHTML = '₱ ';
+      document.getElementById('changediscount').innerHTML += (discountedValue + 59);
+       document.getElementById('changediscount').innerHTML +=  ' <s style="color:red">' + parseInt(value.replace(reg, "")) + '</s> ';
 };
       </script>
    </body>
