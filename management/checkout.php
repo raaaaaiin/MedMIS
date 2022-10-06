@@ -21,7 +21,7 @@
       <!-- Core theme CSS (includes Bootstrap)-->
       <link href="css/styles.css" rel="stylesheet" />
    </head>
-   <body onload="myFunction()">
+   <body>
       <!-- Navigation-->
       <nav class="navbar navbar-expand-lg navbar-light bg-info">
          <div class="container px-4 px-lg-5">
@@ -139,7 +139,7 @@
                                  <th scope="col">+ 59 Php</th>
                                  <th scope="col"></th>
                                  <th scope="col">Final Total</th>
-                                 <th scope="col"><?php echo $total_price_all + 59?> Php</th>
+                                 <th scope="col" id="changediscount"><?php echo $total_price_all + 59?> Php</th>
                               </tr>
                            </thead>
                         </table>
@@ -223,11 +223,11 @@
                </div>
                <div class="col-sm-12 "  >
                   <label><b>Prescription</b></label>
-                  <input type="file" class="form-control"	style="text-transform:capitalize;width:100%;" name = "file1"  >
+                  <input type="file" class="form-control"	style="text-transform:capitalize;width:100%;" name = "file1"  id="file1">
                </div>
                <div class="col-sm-12 "  >
                   <label><b>Discount ID (Senior/PWD)</b></label>
-                  <input type="file" class="form-control"	style="text-transform:capitalize;width:100%;" name = "file"  >
+                  <input type="file" class="form-control"	style="text-transform:capitalize;width:100%;" name = "file"  id="file2">
                </div> 
                    <button class="col-sm-12 mt-2 btn bg-success" style="float:right;color:white;" type="submit" name="check_out">
                            <i class="bi bi-basket-fill"></i> Check Out
@@ -356,6 +356,11 @@
       <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
       <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
       <!-- Core theme JS-->
-      <script src="js/scripts.js"></script>
+      <script>
+
+        document.getElementById('file1').onchange = function() {
+      alert("fire");
+};
+      </script>
    </body>
 </html>
