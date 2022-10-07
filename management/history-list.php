@@ -123,9 +123,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 		$q12 = $conn->query("SELECT * FROM `cart_order` WHERE `cart_order_add`='$store_id' ") or die(msqli_error());
 		$f12 = $q12->fetch_array();
 		$cart_order_driver = $f12['cart_order_driver'];
-					
+        $means = $f12['cart_order_delivery'];
+               $stats = $f12['cart_order_status'];
 		$q11 = $conn->query("SELECT * FROM `user_account` WHERE `u_id` = '$cart_order_driver'") or die(msqli_error());
 		$f11 = $q11->fetch_array();
+        if(is_null($f11)){
+            $f11['fname'] = "Pending";
+            $f11['mname'] = " ";
+            $f11['lname'] = " ";
+            $f11['user_id_number'] = "Pending";
+        }
 	?>
   </tbody>
   <thead>
@@ -137,6 +144,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     </tr>
   </thead>
 </table>
+                    <?php
+                    if($means == 'Delivery' && $stats != 'Rejected'){
+
+
+                    ?>
 <br><br>
 <b style="margin-top:30px;">Drivers Details:</b>
 <b></b>
@@ -144,6 +156,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <h6 style="margin-top:20px;"><?php echo $f11['fname']." ".$f11['mname']." ".$f11['lname']?></h6>
 <h6>Plate Number: </h6>
 <h6><?php echo $f11['user_id_number']?></h6>
+                    <?php
+                    }elseif($stats == "Rejected"){
+                        ?>
+                        <b class="w-100" style="margin-top:30px;color:red">This item is rejected due to : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
+                            <?php
+                    } else{
+                        ?>
+                        <b style="margin-top:30px;">This item is for pick up</b>
+                    <?php
+                    }
+                    ?>
 				</div>
             </div>
         </section>

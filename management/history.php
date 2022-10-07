@@ -92,7 +92,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <tr>
       <th scope="col" style="font-size:10px;">Order #</th>
       <th scope="col" style="font-size:10px;">Date Ordered</th>
-      <th scope="col" style="font-size:10px;">Status</th>
+      <th scope="col" style="font-size:10px;">Order</th>
+        <th scope="col" style="font-size:10px;">Status</th>
       <th scope="col" style="font-size:10px;">Action</th>
     </tr>
   </thead>
@@ -107,6 +108,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <tr>
       <td style="font-size:10px;"><?php echo $f_e['cart_order_add']?> </td>
       <td style="font-size:10px;"><?php echo $f_e['cart_order_date']?> </td>
+        <td style="font-size:10px;"><?php echo $f_e['cart_order_delivery']?> </td>
       <td style="font-size:10px;"><?php echo $f_e['cart_order_status']?> </td>
       <td ><a class="btn btn-outline-light bg-danger mt-auto btn-sm" style="width:75px;" href="history-list.php?store_id=<?php echo $cart_order_add?>">View </a></td>
     </tr>
