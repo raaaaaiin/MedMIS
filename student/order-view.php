@@ -365,10 +365,26 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 							<?php if($cart_order_status == "Delivering") {?><option value="Done">-Done Transaction</option><?php } ?>
 						</select>
 				</div>
-                <div class="col-sm-12 mb-3 mb-sm-0">
-						<label>Current Status:</label>
-						<p style="color:black;"><?php if($cart_order_status=="ReadyDispatch"){ echo "Ready to Dispatch";}else{echo $cart_order_status;} ?>
-				</div>
+                    <?php
+                    if($cart_order_status == "Pending"){
+
+                    }else{
+                        ?>
+
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label>Current Status:</label>
+                            <p style="color:black;"><?php if($cart_order_status=="ReadyDispatch"){ echo "Ready to Dispatch";}else{echo $cart_order_status;} ?>
+                        </div>
+
+                    <?php
+
+                    }
+                    ?>
+
+                    <div id="rejectreason" class="col-sm-12 mb-3 mb-sm-0" style="display: none;">
+                        <label style="color:red">Brief description why this item is rejected</label>
+                        <textarea class = "form-control" required  style="text-transform:capitalize;" name="Text1" cols="40" rows="8"></textarea>
+                    </div>
 				</div>
 				<?php 
 				$q3 = $conn->query("SELECT * FROM `cashin` WHERE `cashin_user_id` = '$cart_order_uid'") or die(msqli_error());
@@ -706,8 +722,19 @@ var check = function() {
     $('table.display').DataTable({
         "order": [[ 0, "asc" ]]
     });
-} );       
- 
+} );
+let history = "";
+ $('#selection').change(function(){
+    if($('#selection').val() == "Rejected"){
+        $('#rejectreason').val(history);
+        $('#rejectreason').show();
+
+    }else{
+        history = $('#rejectreason').val();
+        $('#rejectreason').hide();
+        $('#rejectreason').val("");
+    }
+});
  function handleSelect(elm)
   {
      window.location = elm.value+".php";
