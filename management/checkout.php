@@ -268,12 +268,17 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                             <div class="col-sm-12 ">
                                 <label><b>Prescription</b></label>
                                 <input type="file" class="form-control" style="text-transform:capitalize;width:100%;"
-                                       name="file1" id="file1">
+                                       name="file1" id="file1" accept=".jpg,.jpeg,.png" onchange="validateFileType('file1')"/>
+
                             </div>
                             <div class="col-sm-12 ">
                                 <label><b>Discount ID (Senior/PWD)</b></label>
                                 <input type="file" class="form-control" style="text-transform:capitalize;width:100%;"
-                                       name="file" id="file2">
+                                       name="file" id="file2"  accept=".jpg,.jpeg,.png" onchange="validateFileType('file2')"/>
+
+
+
+
                             </div>
                             <div class="d-none d-sm-block col-sm-12 mb-3 mt-4 mb-sm-0">
                                 <table style="width:100%">
@@ -281,7 +286,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
                                     <tr>
                                         <th style="border:0" scope="col">Sub Total Fee</th>
-                                        <th style="border:0" scope="col">₱ <?php echo $total_price_all ?></th>
+                                        <th style="border:0" scope="col"  id="subtotal">₱ <?php echo $total_price_all ?></th>
                                     </tr>
                                     <tr>
                                         <th style="border:0" scope="col">SC/PWD Discount</th>
@@ -342,7 +347,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
     <?php
 
-    $cur_date = date("Y-m-d h:i:sa");
+    $cur_date = date("ydsimh", time());
     if (isset($_POST['check_out'])) {
         $option1 = $_POST['option1'];
         if ($option1 == "E Wallet Method") {
@@ -363,6 +368,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 $address = $_POST['address'];
                 $cart_pharmacy = $_POST['cart_pharmacy'];
                 $option = $_POST['option'];
+                $cart_has_discount = $_FILES["file1"] ? 'False' : 'True';
                 $number = $_POST['number'];
                 $date = date('F d,Y - h:i:s A', time());
                 $ref = 'MED-' . date('Ymidhs', time());
@@ -386,7 +392,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 $extension2 = explode("/", $_FILES["file1"]["type"]);
                 $name3 = $uRefNo2 . "." . $extension2[1];
                 move_uploaded_file($tmp2, "img/" . $uRefNo2 . "." . $extension2[1]);
-                $sql3r = "INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy')";
+                $sql3r = "INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy','','$cart_has_discount')";
                 if (mysqli_query($conn, $sql3r)) {
                 }
                 $result1 = $conn->query("UPDATE `cart` SET `status`='Ordered',`cart_ref`='$ref' WHERE `cart_user`='$u_id' AND `status`='Pending'");
@@ -434,8 +440,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             $tmp2 = $_FILES["file1"]["tmp_name"];
             $extension2 = explode("/", $_FILES["file1"]["type"]);
             $name3 = $uRefNo2 . "." . $extension2[1];
+
+            $cart_has_discount = isset($extension2[1]) ? 'True' : 'False';
             move_uploaded_file($tmp2, "img/" . $uRefNo2 . "." . $extension2[1]);
-            $sql3r = "INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy')";
+            $sql3r = "INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy','','$cart_has_discount')";
             if (mysqli_query($conn, $sql3r)) {
             }
             $result1 = $conn->query("UPDATE `cart` SET `status`='Ordered',`cart_ref`='$ref' WHERE `cart_user`='$u_id' AND `status`='Pending'");
@@ -467,22 +475,65 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 <!-- Core theme JS-->
 <script>
+    let indicator = false;
+
     document.getElementById('file2').onchange = function () {
-        const value = document.getElementById('changediscount1').innerHTML;
-        const discountedValue = (parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.80;
-        isDiscount = true;
-        alert(discountedValue)
-        document.getElementById('changediscount1').innerHTML = '₱ ';
-        document.getElementById('changediscount1').innerHTML += (discountedValue + 59);
-        document.getElementById('changediscount2').innerHTML = '₱ ';
-        document.getElementById('changediscount2').innerHTML += (discountedValue + 59);
-        document.getElementsByClassName('discount')[0].innerHTML ='';
-        document.getElementsByClassName('discount')[1].innerHTML ='';
-        document.getElementsByClassName('discount')[0].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) +' </span>';
-        document.getElementsByClassName('discount')[1].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) + '</span>';
+        var fileName = document.getElementById('file2').value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+
+            if(indicator == false){
+                const value = document.getElementById('changediscount1').innerHTML;
+                const discountedValue = (parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.80;
+                document.getElementById('changediscount1').innerHTML = '₱ ';
+                document.getElementById('changediscount1').innerHTML += (discountedValue + 59);
+                document.getElementById('changediscount2').innerHTML = '₱ ';
+                document.getElementById('changediscount2').innerHTML += (discountedValue + 59);
+                document.getElementsByClassName('discount')[0].innerHTML ='';
+                document.getElementsByClassName('discount')[1].innerHTML ='';
+                document.getElementsByClassName('discount')[0].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) +' </span>';
+                document.getElementsByClassName('discount')[1].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) + '</span>';
+                indicator = true;
+            }
+        }else{
+            swal({
+                title: "Failed!",
+                text: "Only jpg/jpeg and png files are allowed!",
+                icon: "error",
+                button: "Ok",
+            });
+            document.getElementById('file2').value = "";
+        }
+
+
+
     };
 
+    function validateFileType($params){
+        var fileName = document.getElementById($params).value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            //TO DO
+        }else{
+            swal({
+                title: "Failed!",
+                text: "Only jpg/jpeg and png files are allowed!",
+                icon: "error",
+                button: "Ok",
+            });
+            document.getElementById($params).value = "";
+        }
+    }
+    $( document ).ready(function() {
 
+        const value =  $('#subtotal').html();
+        if(value == '₱ 0'){
+
+            $('.check_out').attr("disabled", true);
+        }
+    });
 
 </script>
 </body>
