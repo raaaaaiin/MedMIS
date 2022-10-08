@@ -364,7 +364,34 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 							<?php if($cart_order_status == "ReadyDispatch") {?><option value="Delivering">-Delivering</option><?php } ?>
 							<?php if($cart_order_status == "Delivering") {?><option value="Done">-Done Transaction</option><?php } ?>
 						</select>
+
+
 				</div>
+                    <?php if($cart_has_discount == "True"){
+                       ?>
+
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label>Proof of Discount</label>
+                            <center>
+                                <?php if($cart_order_pic==null){
+                                }else{?>
+
+                                    <img src="../management/img/<?php echo $cart_order_pic?>" width="400px" height="250px">
+
+                                <?php }
+                                if($cart_pre==null){
+                                }else{?>
+
+                                <?php } ?>
+                            </center>
+                        </div>
+
+                    <?php
+                    }else{
+
+                    }
+                    ?>
+
                     <?php
                     if($cart_order_status == "Pending"){
 
