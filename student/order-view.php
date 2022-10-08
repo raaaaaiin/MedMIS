@@ -223,6 +223,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 						$cart_order_delivery = $f2['cart_order_delivery'];
 						$cart_order_payment  = $f2['cart_order_payment'];
 						$cart_order_status  = $f2['cart_order_status'];
+                        $cart_has_discount  = $f2['cart_has_discount'];
 	   ?>
   <div class="modal fade" id="addProduct1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -237,7 +238,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <center>
                 <?php if($cart_order_pic==null){
                 }else{?>
-                <h5>Client's ID</h5>
+                <h5>Discount</h5>
                 <img src="../management/img/<?php echo $cart_order_pic?>" width="400px" height="250px">
                 
                 <?php } 
@@ -290,7 +291,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     </tbody>
                 </table>
               </div>
-			  <h3 style="float:right;"><?php echo  "Total: ".$total_amount."";?> Php</h3>
+			  <h3 style="float:right;"><?php if($cart_has_discount == "True"){
+                  echo "<span style='color:red'>This item is Discounted from <s>".$total_amount."</s> to </span>";
+
+                  }
+                  echo $total_amount *0.80."";?> Php</h3>
             </div>
 			</div>
 						
@@ -351,9 +356,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				<div class = "form-group row" >
                   <div class="col-sm-12 mb-3 mb-sm-0">
 						<label>Status</label>
-						<select type="text" name="status" class = "form-control" required  style="text-transform:capitalize;">
+						<select id="selection" type="text" name="status" class = "form-control" required  style="text-transform:capitalize;">
 							<option value="">Select Status</option>
 							<?php if($cart_order_status == "Pending") {?><option value="Confirm">-Confirm</option><?php }?>
+                            <?php if($cart_order_status == "Pending") {?><option value="Rejected">-Rejected</option><?php }?>
 							<?php if($cart_order_status == "Confirm") {?><option value="ReadyDispatch">-Ready to Dispatch</option><?php } ?>
 							<?php if($cart_order_status == "ReadyDispatch") {?><option value="Delivering">-Delivering</option><?php } ?>
 							<?php if($cart_order_status == "Delivering") {?><option value="Done">-Done Transaction</option><?php } ?>
