@@ -342,14 +342,15 @@ table {
                                                         $userid = $key['cart_order_driver'];
                                                         $name = $conn->query("SELECT Concat(`lname`,' ',`fname`,' ',`mname`) as name FROM `user_account` WHERE `u_id` = '$userid'")  ;
 							                            $res = $name->fetch_array();
-                                                        echo $res['name'] 
+                                                        $validate = $res ? $res['name'] : "No driver details";
+                                                        echo $validate
                                                         
                                                         
                                                         
                                                         ?></td>
                                                         <td><?php echo $key['cart_order_delivery'] ?></td> 
                                                         <td><?php echo $key['cart_order_payment'] ?></td>
-                                                        <td><?php echo $key['cart_order_date'] ?></td> 
+                                                        <td><?php echo $key['cart_order_date'] ?></td>
                                                      <tr>
 
                                                      <?php
