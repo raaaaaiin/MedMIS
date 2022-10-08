@@ -99,7 +99,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     <br>
 
 
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data"
+    <form id="checkoutForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data"
           autocomplete="off">
         <div class="row w-100" style="justify-content: center; margin:0px!important;">
 
@@ -183,7 +183,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                 $del_cart = $_GET['del_cart'];
                                 $result = $conn->query("UPDATE cart SET status='Deleted' WHERE cart_id='$del_cart'");
                                 if ($result) {
-                                    echo '<script>
+                                    echo '<script> swal
                            				function myFunction() {
                            					swal({
                            					title: "Success!",
@@ -299,7 +299,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                 </table>
                             </div>
                             <hr>
-                            <button class="col-12 mt-2 btn bg-success d-none d-md-block"
+                            <button class="check_out col-12 mt-2 btn bg-success d-none d-md-block"
                                     style="float:right;color:white;" type="submit" name="check_out">
                                 <i class="bi bi-basket-fill"></i> Check Out
                             </button>
@@ -331,7 +331,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     </tr>
                     </thead>
                 </table>
-                <button class="mt-2 btn bg-success" style="border-radius: 100px;width:100%;color:white; height:70px"
+                <button class="check_out mt-2 btn bg-success" style="border-radius: 100px;width:100%;color:white; height:70px"
                         type="submit" name="check_out">
                     <i class="bi bi-basket-fill"></i> Check Out
                 </button>
@@ -396,7 +396,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             				function myFunction() {
             					swal({
             					title: "Success!",
-            					text: "Successfully Order this Product",
+            					text: "However, Your item will be undergo verification to validate any discount",
             				    icon: "success",
             					type: "success"
             					}).then(function() {
@@ -444,7 +444,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             				function myFunction() {
             					swal({
             					title: "Success!",
-            					text: "Successfully Order this Product",
+            					text: "However, Your item will be undergo verification to validate any discount",
             				    icon: "success",
             					type: "success"
             					}).then(function() {
@@ -462,14 +462,15 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 </section>
 <!-- Footer-->
 <!-- Bootstrap core JS-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 <!-- Core theme JS-->
 <script>
-
     document.getElementById('file2').onchange = function () {
         const value = document.getElementById('changediscount1').innerHTML;
         const discountedValue = (parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.80;
+        isDiscount = true;
         alert(discountedValue)
         document.getElementById('changediscount1').innerHTML = '₱ ';
         document.getElementById('changediscount1').innerHTML += (discountedValue + 59);
@@ -480,6 +481,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         document.getElementsByClassName('discount')[0].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) +' </span>';
         document.getElementsByClassName('discount')[1].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) + '</span>';
     };
+
+
 
 </script>
 </body>
