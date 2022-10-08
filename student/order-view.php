@@ -410,7 +410,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
                     <div id="rejectreason" class="col-sm-12 mb-3 mb-sm-0" style="display: none;">
                         <label style="color:red">Brief description why this item is rejected</label>
-                        <textarea class = "form-control" required  style="text-transform:capitalize;" name="Text1" cols="40" rows="8"></textarea>
+                        <textarea class = "form-control"  style="text-transform:capitalize;" name="Text1" cols="40" rows="8" novalidate></textarea>
                     </div>
 				</div>
 				<?php 
@@ -501,7 +501,7 @@ if (isset($_POST['update_order'])) {
     $cashin_total_a = $total_final * 0.1;
     $cashin_total_af = $cashin_total_a + $total3;
     $cashin_total_final = $cashin_total - $total_amount;
-   
+    $rejectdetails = $_POST['Text1'];
     if ($status == "Done") {
    
         //Driver
@@ -555,13 +555,12 @@ if (isset($_POST['update_order'])) {
        
        
     }
-    $result1 = $conn->query("UPDATE `cart_order` SET `cart_order_status`='$status' WHERE `cart_order_add`='$cart_order'");
+    $result1 = $conn->query("UPDATE `cart_order` SET `cart_order_status`='$status' , `cart_reject_details` ='$rejectdetails' WHERE `cart_order_add`='$cart_order'");
     if ($result1) {
         echo '<script>
 									function myFunction() {
 										swal({
 										title: "Success! ",
-										text: "' . $status . '",
 									    icon: "success",
 										type: "success"
 										}).then(function() {
