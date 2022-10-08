@@ -101,7 +101,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                <?php
 		  $c = 1;
 		  $total_price_all = 0;
-					$q_e = $conn->query("SELECT * FROM `cart_order` WHERE `cart_order_uid` = '$u_id'  ORDER BY `cart_order_date` DESC") or die(mysqli_error());
+					$q_e = $conn->query("SELECT * FROM `cart_order` WHERE `cart_order_uid` = '$u_id'  ORDER BY  `cart_order_id` DESC") or die(mysqli_error());
 					while($f_e=$q_e->fetch_array()){
 					$cart_order_add = $f_e['cart_order_add'];
 		  ?>
@@ -109,7 +109,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       <td style="font-size:10px;"><?php echo $f_e['cart_order_add']?> </td>
       <td style="font-size:10px;"><?php echo $f_e['cart_order_date']?> </td>
         <td style="font-size:10px;"><?php echo $f_e['cart_order_delivery']?> </td>
-      <td style="font-size:10px;"><?php echo $f_e['cart_order_status']?> </td>
+      <td style="font-size:10px;"><?php if($f_e['cart_order_status'] == "Rejected"){
+          echo '<span style="color:red">'.$f_e["cart_order_status"].'</span>';
+          }else{
+          echo $f_e['cart_order_delivery'];
+          }?> </td>
       <td ><a class="btn btn-outline-light bg-danger mt-auto btn-sm" style="width:75px;" href="history-list.php?store_id=<?php echo $cart_order_add?>">View </a></td>
     </tr>
 	<?php 

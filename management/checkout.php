@@ -106,11 +106,12 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <div class="form-group mb-4 col-sm-12 col-md-8" style="overflow:hidden">
                 <div class="form-group row h-100" style="    align-content: space-between;">
                     <div class="col-sm-12 mb-sm-0 col-md-12">
-                        <div class="row m-0 row-cols-2 p-3 row-cols-md-3 row-cols-xl-4" style="border-radius: 25px;
+                        <div class=" m-0 row-cols-2 p-3 row-cols-md-3 row-cols-xl-4" style="border-radius: 25px;
     background: #ffffff;                                                                                                                                                
     padding: 20px;
     width: 100%;
     height: 100%;">
+
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -165,8 +166,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                             ₱ <?php echo $total_price_all ?></th>
                                     </tr>
                                     <tr>
-                                        <th style="border:0" scope="col">SC/PWD Discount</th>
-                                        <th style="border:0;float:right" scope="col">₱ 0</th>
+                                        <th style="border:0" scope="col" >SC/PWD Discount</th>
+                                        <th style="border:0;float:right" scope="col" class="discount">₱ 0</th>
                                     </tr>
                                     <tr>
                                         <th style="border:0" scope="col">Delivery Fee</th>
@@ -284,7 +285,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                     </tr>
                                     <tr>
                                         <th style="border:0" scope="col">SC/PWD Discount</th>
-                                        <th style="border:0" scope="col">₱ 0</th>
+                                        <th style="border:0" scope="col" class="discount">₱ 0</th>
                                     </tr>
                                     <tr>
                                         <th style="border:0" scope="col">Delivery Fee</th>
@@ -292,7 +293,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                     </tr>
                                     <tr>
                                         <th scope="col">Final Total</th>
-                                        <th scope="col" id="changediscount">₱ <?php echo $total_price_all + 59 ?></th>
+                                        <th scope="col" id="changediscount2">₱ <?php echo $total_price_all + 59 ?></th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -326,8 +327,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
                     <tr>
                         <th scope="col">Final Total</th>
-                        <th scope="col" id="changediscount" style="float:right;">
-                            ₱ <?php echo $total_price_all + 59 ?></th>
+                        <th scope="col" id="changediscount1" style="float:right;">₱ <?php echo $total_price_all + 59 ?></th>
                     </tr>
                     </thead>
                 </table>
@@ -467,15 +467,20 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <!-- Core theme JS-->
 <script>
 
-    document.getElementById('file1').onchange = function () {
-        const reg = /[a-zA-Z]*/
-        const value = document.getElementById('changediscount').innerHTML;
-        const discountedValue = (parseInt(value.replace(reg, "")) - 59) * 0.80;
+    document.getElementById('file2').onchange = function () {
+        const value = document.getElementById('changediscount1').innerHTML;
+        const discountedValue = (parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.80;
         alert(discountedValue)
-        document.getElementById('changediscount').innerHTML = '₱ ';
-        document.getElementById('changediscount').innerHTML += (discountedValue + 59);
-        document.getElementById('changediscount').innerHTML += ' <s style="color:red">' + parseInt(value.replace(reg, "")) + '</s> ';
+        document.getElementById('changediscount1').innerHTML = '₱ ';
+        document.getElementById('changediscount1').innerHTML += (discountedValue + 59);
+        document.getElementById('changediscount2').innerHTML = '₱ ';
+        document.getElementById('changediscount2').innerHTML += (discountedValue + 59);
+        document.getElementsByClassName('discount')[0].innerHTML ='';
+        document.getElementsByClassName('discount')[1].innerHTML ='';
+        document.getElementsByClassName('discount')[0].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) +' </span>';
+        document.getElementsByClassName('discount')[1].innerHTML +='<span style="color:red">-₱' + ((parseInt(value.replace(/[^\d.-]/g, '')) - 59) * 0.20) + '</span>';
     };
+
 </script>
 </body>
 </html>
