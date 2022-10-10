@@ -274,7 +274,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                             <div class="col-sm-12 ">
                                 <label><b>Discount ID (Senior/PWD)</b></label>
                                 <input type="file" class="form-control" style="text-transform:capitalize;width:100%;"
-                                       name="file" id="file2"  accept=".jpg,.jpeg,.png" onchange="validateFileType('file2')"/>
+                                       name="file2" id="file2"  accept=".jpg,.jpeg,.png" onchange="validateFileType('file2')"/>
 
 
 
@@ -351,7 +351,22 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     if (isset($_POST['check_out'])) {
         $option1 = $_POST['option1'];
         if ($option1 == "E Wallet Method") {
-            $total_price_all += $delfee;
+            if(empty($_FILES['file2']['tmp_name'])){
+            }else {
+                $brand2 = "THERMO-";
+                $invoice2 = $brand2 . $cur_date;
+                $customer_id2 = rand(00000, 99999);
+                $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
+                $tmp2 = $_FILES["file2"]["tmp_name"];
+                $extension2 = explode("/", $_FILES["file2"]["type"]);
+                $name3 = $uRefNo2 . "." . $extension2[1];
+                $cart_has_discount = isset($extension2[1]) ? 'True' : 'False';
+            }
+            if($cart_has_discount == "True"){
+            $total_price_all = $total_price_all * 0.80;
+            $total_price_all += $delfee;}else{
+                $total_price_all += $delfee;
+            }
             if ($total_price_all >= $total_cash) {
 
                 echo '<script>
@@ -362,40 +377,66 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             				icon: "error",
             				button: "Ok",
             				});}
+            				 myFunction();
             				</script>';
 
             } else {
+                $cart_has_discount = "False";
                 $address = $_POST['address'];
                 $cart_pharmacy = $_POST['cart_pharmacy'];
                 $option = $_POST['option'];
-                $cart_has_discount = $_FILES["file1"] ? 'False' : 'True';
+
                 $number = $_POST['number'];
                 $date = date('F d,Y - h:i:s A', time());
                 $ref = 'MED-' . date('Ymidhs', time());
+
+                if(empty($_FILES['file1']['tmp_name'])){
+                    $brand1 = "THERMO-";
+                    $invoice1 = $brand1 . $cur_date;
+                    $customer_id1 = rand(00000, 99999);
+                    $uRefNo1 = $invoice1 . '-ITEM-' . $customer_id1;
+                    $name2 = $uRefNo1 . ".jpeg";
+                }else{
                 $brand1 = "THERMO-";
                 $invoice1 = $brand1 . $cur_date;
                 $customer_id1 = rand(00000, 99999);
                 $uRefNo1 = $invoice1 . '-ITEM-' . $customer_id1;
 
-                $tmp1 = $_FILES["file"]["tmp_name"];
-                $extension1 = explode("/", $_FILES["file"]["type"]);
+
+
+                $tmp1 = $_FILES["file1"]["tmp_name"];
+                $extension1 = explode("/", $_FILES["file1"]["type"]);
                 $name2 = $uRefNo1 . "." . $extension1[1];
                 $ref = date("ydsimh", time());
                 move_uploaded_file($tmp1, "img/" . $uRefNo1 . "." . $extension1[1]);
 
-                $brand2 = "THERMO-";
-                $invoice2 = $brand2 . $cur_date;
-                $customer_id2 = rand(00000, 99999);
-                $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
+                }
+                if(empty($_FILES['file2']['tmp_name'])){
+                    $brand2 = "THERMO-";
+                    $invoice2 = $brand2 . $cur_date;
+                    $customer_id2 = rand(00000, 99999);
+                    $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
+                    $name3 = $uRefNo2 . ".jpeg" ;
+                }else {
+                    $brand2 = "THERMO-";
+                    $invoice2 = $brand2 . $cur_date;
+                    $customer_id2 = rand(00000, 99999);
+                    $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
 
-                $tmp2 = $_FILES["file1"]["tmp_name"];
-                $extension2 = explode("/", $_FILES["file1"]["type"]);
-                $name3 = $uRefNo2 . "." . $extension2[1];
-                move_uploaded_file($tmp2, "img/" . $uRefNo2 . "." . $extension2[1]);
+                    $tmp2 = $_FILES["file2"]["tmp_name"];
+                    $extension2 = explode("/", $_FILES["file2"]["type"]);
+                    $name3 = $uRefNo2 . "." . $extension2[1];
+
+                    $cart_has_discount = isset($extension2[1]) ? 'True' : 'False';
+                    move_uploaded_file($tmp2, "img/" . $uRefNo2 . "." . $extension2[1]);
+                }
+
+
                 $sql3r = "INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy','','$cart_has_discount')";
                 if (mysqli_query($conn, $sql3r)) {
                 }
                 $result1 = $conn->query("UPDATE `cart` SET `status`='Ordered',`cart_ref`='$ref' WHERE `cart_user`='$u_id' AND `status`='Pending'");
+
                 $reduceMoney = $conn->query("UPDATE `cashin` SET `cashin_total`=`cashin_total` - $total_price_all  WHERE `cashin_user_id` = '$u_id' ");
                 if ($result1) {
                     echo '<script>
@@ -421,28 +462,46 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             $number = $_POST['number'];
             $date = date('F d,Y - h:i:s A', time());
             $ref = 'MED-' . date('Ymidhs', time());
-            $brand1 = "THERMO-";
-            $invoice1 = $brand1 . $cur_date;
-            $customer_id1 = rand(00000, 99999);
-            $uRefNo1 = $invoice1 . '-ITEM-' . $customer_id1;
+            if(empty($_FILES['file1']['tmp_name'])){
+                $brand1 = "THERMO-";
+                $invoice1 = $brand1 . $cur_date;
+                $customer_id1 = rand(00000, 99999);
+                $uRefNo1 = $invoice1 . '-ITEM-' . $customer_id1;
+                $name2 = $uRefNo1 . ".jpeg";
+            }else{
+                $brand1 = "THERMO-";
+                $invoice1 = $brand1 . $cur_date;
+                $customer_id1 = rand(00000, 99999);
+                $uRefNo1 = $invoice1 . '-ITEM-' . $customer_id1;
 
-            $tmp1 = $_FILES["file"]["tmp_name"];
-            $extension1 = explode("/", $_FILES["file"]["type"]);
-            $name2 = $uRefNo1 . "." . $extension1[1];
-            $ref = date("ydsimh", time());
-            move_uploaded_file($tmp1, "img/" . $uRefNo1 . "." . $extension1[1]);
 
-            $brand2 = "THERMO-";
-            $invoice2 = $brand2 . $cur_date;
-            $customer_id2 = rand(00000, 99999);
-            $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
 
-            $tmp2 = $_FILES["file1"]["tmp_name"];
-            $extension2 = explode("/", $_FILES["file1"]["type"]);
-            $name3 = $uRefNo2 . "." . $extension2[1];
+                $tmp1 = $_FILES["file1"]["tmp_name"];
+                $extension1 = explode("/", $_FILES["file1"]["type"]);
+                $name2 = $uRefNo1 . "." . $extension1[1];
+                $ref = date("ydsimh", time());
+                move_uploaded_file($tmp1, "img/" . $uRefNo1 . "." . $extension1[1]);
 
-            $cart_has_discount = isset($extension2[1]) ? 'True' : 'False';
-            move_uploaded_file($tmp2, "img/" . $uRefNo2 . "." . $extension2[1]);
+            }
+            if(empty($_FILES['file2']['tmp_name'])){
+                $brand2 = "THERMO-";
+                $invoice2 = $brand2 . $cur_date;
+                $customer_id2 = rand(00000, 99999);
+                $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
+                $name3 = $uRefNo2 . ".jpeg" ;
+            }else {
+                $brand2 = "THERMO-";
+                $invoice2 = $brand2 . $cur_date;
+                $customer_id2 = rand(00000, 99999);
+                $uRefNo2 = $invoice2 . '-ITEM-' . $customer_id2;
+
+                $tmp2 = $_FILES["file2"]["tmp_name"];
+                $extension2 = explode("/", $_FILES["file2"]["type"]);
+                $name3 = $uRefNo2 . "." . $extension2[1];
+
+                $cart_has_discount = isset($extension2[1]) ? 'True' : 'False';
+                move_uploaded_file($tmp2, "img/" . $uRefNo2 . "." . $extension2[1]);
+            }
             $sql3r = "INSERT INTO cart_order VALUES(null,'$u_id','$address','$name2','$name3','$ref','$number','Pending','$option','$option1','$date','','$cart_pharmacy','','$cart_has_discount')";
             if (mysqli_query($conn, $sql3r)) {
             }
