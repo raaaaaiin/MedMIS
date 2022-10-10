@@ -351,6 +351,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     if (isset($_POST['check_out'])) {
         $option1 = $_POST['option1'];
         if ($option1 == "E Wallet Method") {
+
+            $cart_has_discount = "False";
             if(empty($_FILES['file2']['tmp_name'])){
             }else {
                 $brand2 = "THERMO-";
@@ -381,7 +383,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             				</script>';
 
             } else {
-                $cart_has_discount = "False";
                 $address = $_POST['address'];
                 $cart_pharmacy = $_POST['cart_pharmacy'];
                 $option = $_POST['option'];
