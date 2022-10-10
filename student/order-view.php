@@ -294,8 +294,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 			  <h3 style="float:right;"><?php if($cart_has_discount == "True"){
                   echo "<span style='color:red'>This item is Discounted from <s>".$total_amount."</s> to </span>";
 
-                  }
-                  echo $total_amount *0.80."";?> Php</h3>
+
+                  echo $total_amount *0.80.""; }else{
+                      echo $total_amount;
+                  }?> Php</h3>
             </div>
 			</div>
 						
