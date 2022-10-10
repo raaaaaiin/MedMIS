@@ -238,13 +238,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <center>
                 <?php if($cart_order_pic==null){
                 }else{?>
-                <h5>Discount</h5>
+                <h5>Prescription</h5>
                 <img src="../management/img/<?php echo $cart_order_pic?>" width="400px" height="250px">
                 
                 <?php } 
                 if($cart_pre==null){
                 }else{?>
-                <h5>Prescription</h5>
+                <h5>Discount</h5>
                 <img src="../management/img/<?php echo $cart_pre?>" width="400px" height="250px">
                 <?php } ?>
             </center>
@@ -378,7 +378,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                 <?php if($cart_order_pic==null){
                                 }else{?>
 
-                                    <img src="../management/img/<?php echo $cart_order_pic?>" width="400px" height="250px">
+                                    <img src="../management/img/<?php echo $cart_pre?>" width="400px" height="250px">
 
                                 <?php }
                                 if($cart_pre==null){
@@ -497,11 +497,14 @@ if (isset($_POST['update_order'])) {
     $total1_e = $_POST['total1'];
     $total2_e = $_POST['total2'];
     $cashin_total_d = $_POST['cashin_total_d'] + 59;
+
     $total_final = $total_amount - 59;
+    if($cart_has_discount = "True"){
+        $total_final = $total_final * 0.80;
+    }
     $cashin_total_p = $total_final * 0.1;
     $cashin_total_s = $total_final - $cashin_total_p;
     $cashin_total_a = $total_final * 0.1;
-    $cashin_total_af = $cashin_total_a + $total3;
     $cashin_total_final = $cashin_total - $total_amount;
     $rejectdetails = $_POST['Text1'];
     if ($status == "Done") {
